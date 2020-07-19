@@ -1,7 +1,7 @@
 library("workflowr")
 
 # Configure Git (only need to do once per computer)
-wflow_git_config(user.name = "gc5k", user.email = "chenguobo@gmail.com")
+#wflow_git_config(user.name = "gc5k", user.email = "chenguobo@gmail.com")
 
 # Start a new workflowr project
 wflow_start("myproject")
