@@ -1,0 +1,4928 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Chen Guo-Bo [chenguobo@gmail.com]" />
+
+<meta name="date" content="2020-07-25" />
+
+<title>ALS</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">alsHZ</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+<li>
+  <a href="ALS_BodyTest.html">ALS</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">ALS</h1>
+<h4 class="author">Chen Guo-Bo [<a href="mailto:chenguobo@gmail.com" class="email">chenguobo@gmail.com</a>]</h4>
+<h4 class="date">2020-07-25</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2020-07-25
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>alsHZ/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.6.2). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20200725code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20200725)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20200725code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20200725)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomgc5kWorkFlowTesttreedb328a7f4b7316f425176893429f0d48e4bbdc83targetblankdb328a7a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/gc5k/WorkFlowTest/tree/db328a7f4b7316f425176893429f0d48e4bbdc83" target="_blank">db328a7</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomgc5kWorkFlowTesttreedb328a7f4b7316f425176893429f0d48e4bbdc83targetblankdb328a7a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="https://github.com/gc5k/WorkFlowTest/tree/db328a7f4b7316f425176893429f0d48e4bbdc83" target="_blank">db328a7</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rhistory
+
+Untracked files:
+    Untracked:  .DS_Store
+    Untracked:  .gitignore
+    Untracked:  alsHZ/.Rprofile
+    Untracked:  alsHZ/.gitattributes
+    Untracked:  alsHZ/.gitignore
+    Untracked:  alsHZ/Als_sumDat.txt
+    Untracked:  alsHZ/README.md
+    Untracked:  alsHZ/_workflowr.yml
+    Untracked:  alsHZ/alsHZ.Rproj
+    Untracked:  alsHZ/code/
+    Untracked:  alsHZ/data/
+    Untracked:  alsHZ/output/
+
+Unstaged changes:
+    Deleted:    ALS Body/analysis/_site.yml
+    Deleted:    ALS Body/analysis/about.Rmd
+    Deleted:    ALS Body/analysis/index.Rmd
+    Deleted:    ALS Body/analysis/license.Rmd
+    Deleted:    ALS Body/docs/.nojekyll
+    Deleted:    ALS Body/docs/about.html
+    Deleted:    ALS Body/docs/index.html
+    Deleted:    ALS Body/docs/license.html
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/bootstrap-theme.css
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/bootstrap-theme.css.map
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/bootstrap-theme.min.css
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/bootstrap.css
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/bootstrap.css.map
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/bootstrap.min.css
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/cerulean.min.css
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/cosmo.min.css
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/darkly.min.css
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/flatly.min.css
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/fonts/Lato.ttf
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/fonts/LatoBold.ttf
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/fonts/LatoItalic.ttf
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/fonts/NewsCycle.ttf
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/fonts/NewsCycleBold.ttf
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/fonts/OpenSans.ttf
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/fonts/OpenSansBold.ttf
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/fonts/OpenSansBoldItalic.ttf
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/fonts/OpenSansItalic.ttf
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/fonts/OpenSansLight.ttf
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/fonts/OpenSansLightItalic.ttf
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/fonts/Raleway.ttf
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/fonts/RalewayBold.ttf
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/fonts/Roboto.ttf
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/fonts/RobotoBold.ttf
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/fonts/RobotoLight.ttf
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/fonts/RobotoMedium.ttf
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/fonts/SourceSansPro.ttf
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/fonts/SourceSansProBold.ttf
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/fonts/SourceSansProItalic.ttf
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/fonts/SourceSansProLight.ttf
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/fonts/Ubuntu.ttf
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/journal.min.css
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/lumen.min.css
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/paper.min.css
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/readable.min.css
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/sandstone.min.css
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/simplex.min.css
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/spacelab.min.css
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/united.min.css
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/css/yeti.min.css
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/fonts/glyphicons-halflings-regular.eot
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/fonts/glyphicons-halflings-regular.svg
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/fonts/glyphicons-halflings-regular.ttf
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/fonts/glyphicons-halflings-regular.woff
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/fonts/glyphicons-halflings-regular.woff2
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/js/bootstrap.js
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/js/bootstrap.min.js
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/js/npm.js
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/shim/html5shiv.min.js
+    Deleted:    ALS Body/docs/site_libs/bootstrap-3.3.5/shim/respond.min.js
+    Deleted:    ALS Body/docs/site_libs/highlightjs-9.12.0/default.css
+    Deleted:    ALS Body/docs/site_libs/highlightjs-9.12.0/highlight.js
+    Deleted:    ALS Body/docs/site_libs/highlightjs-9.12.0/textmate.css
+    Deleted:    ALS Body/docs/site_libs/jquery-1.11.3/jquery.min.js
+    Deleted:    ALS Body/docs/site_libs/navigation-1.1/codefolding.js
+    Deleted:    ALS Body/docs/site_libs/navigation-1.1/sourceembed.js
+    Deleted:    ALS Body/docs/site_libs/navigation-1.1/tabsets.js
+    Deleted:    README.md
+    Modified:   WorkFlowTest.R
+    Deleted:    alsHZ/alsHZ/analysis/_site.yml
+    Deleted:    alsHZ/alsHZ/analysis/about.Rmd
+    Deleted:    alsHZ/alsHZ/analysis/index.Rmd
+    Deleted:    alsHZ/alsHZ/analysis/license.Rmd
+    Deleted:    alsHZ/alsHZ/docs/.nojekyll
+    Deleted:    alsHZ/alsHZ/docs/about.html
+    Deleted:    alsHZ/alsHZ/docs/index.html
+    Deleted:    alsHZ/alsHZ/docs/license.html
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/bootstrap-theme.css
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/bootstrap-theme.css.map
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/bootstrap-theme.min.css
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/bootstrap.css
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/bootstrap.css.map
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/bootstrap.min.css
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/cerulean.min.css
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/cosmo.min.css
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/darkly.min.css
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/flatly.min.css
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/fonts/Lato.ttf
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/fonts/LatoBold.ttf
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/fonts/LatoItalic.ttf
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/fonts/NewsCycle.ttf
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/fonts/NewsCycleBold.ttf
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/fonts/OpenSans.ttf
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/fonts/OpenSansBold.ttf
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/fonts/OpenSansBoldItalic.ttf
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/fonts/OpenSansItalic.ttf
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/fonts/OpenSansLight.ttf
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/fonts/OpenSansLightItalic.ttf
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/fonts/Raleway.ttf
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/fonts/RalewayBold.ttf
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/fonts/Roboto.ttf
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/fonts/RobotoBold.ttf
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/fonts/RobotoLight.ttf
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/fonts/RobotoMedium.ttf
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/fonts/SourceSansPro.ttf
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/fonts/SourceSansProBold.ttf
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/fonts/SourceSansProItalic.ttf
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/fonts/SourceSansProLight.ttf
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/fonts/Ubuntu.ttf
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/journal.min.css
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/lumen.min.css
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/paper.min.css
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/readable.min.css
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/sandstone.min.css
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/simplex.min.css
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/spacelab.min.css
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/united.min.css
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/css/yeti.min.css
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/fonts/glyphicons-halflings-regular.eot
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/fonts/glyphicons-halflings-regular.svg
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/fonts/glyphicons-halflings-regular.ttf
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/fonts/glyphicons-halflings-regular.woff
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/fonts/glyphicons-halflings-regular.woff2
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/js/bootstrap.js
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/js/bootstrap.min.js
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/js/npm.js
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/shim/html5shiv.min.js
+    Deleted:    alsHZ/alsHZ/docs/site_libs/bootstrap-3.3.5/shim/respond.min.js
+    Deleted:    alsHZ/alsHZ/docs/site_libs/highlightjs-9.12.0/default.css
+    Deleted:    alsHZ/alsHZ/docs/site_libs/highlightjs-9.12.0/highlight.js
+    Deleted:    alsHZ/alsHZ/docs/site_libs/highlightjs-9.12.0/textmate.css
+    Deleted:    alsHZ/alsHZ/docs/site_libs/jquery-1.11.3/jquery.min.js
+    Deleted:    alsHZ/alsHZ/docs/site_libs/navigation-1.1/codefolding.js
+    Deleted:    alsHZ/alsHZ/docs/site_libs/navigation-1.1/sourceembed.js
+    Deleted:    alsHZ/alsHZ/docs/site_libs/navigation-1.1/tabsets.js
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>alsHZ/analysis/ALS_BodyTest.Rmd</code>) and HTML (<code>alsHZ/docs/ALS_BodyTest.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/gc5k/WorkFlowTest/blob/db328a7f4b7316f425176893429f0d48e4bbdc83/alsHZ/analysis/ALS_BodyTest.Rmd" target="_blank">db328a7</a>
+</td>
+<td>
+gc5k
+</td>
+<td>
+2020-07-25
+</td>
+<td>
+Start my new project
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<pre class="r"><code>#knitr::opts_chunk$set(echo = TRUE)
+library(pROC)</code></pre>
+<pre><code>Type &#39;citation(&quot;pROC&quot;)&#39; for a citation.</code></pre>
+<pre><code>
+Attaching package: &#39;pROC&#39;</code></pre>
+<pre><code>The following objects are masked from &#39;package:stats&#39;:
+
+    cov, smooth, var</code></pre>
+<pre class="r"><code>library(&quot;knitr&quot;)
+library(&quot;kableExtra&quot;)
+
+dat=read.csv(&quot;./data/20200721all_cgb.csv&quot;, as.is = T, header = T)</code></pre>
+<div id="table-of-contents" class="section level1 tabset tabset-fade tabset-pills">
+<h1>Table of contents</h1>
+<div id="quality-check" class="section level2">
+<h2>Quality check</h2>
+<pre class="r"><code>par(las=2, font=5, bty=&#39;l&#39;, ps=6)
+boxplot(dat[,-2], cex=0.5, pch=16, col=runif(nrow(dat), 1, nrow(dat)))</code></pre>
+<p><img src="figure/ALS_BodyTest.Rmd/data-check-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>##basic accessment of the data
+###fivenum, mean, sd, missing, isNumeric
+cutoff=7 #outlier pickup
+
+SUMmat=matrix(0, ncol(dat), 10)
+colnames(SUMmat)=c(&quot;minimum&quot;, &quot;lower-hinge&quot;, &quot;median&quot;, &quot;upper-hinge&quot;, &quot;maximum&quot;, &quot;mean&quot;, &quot;sd&quot;, &quot;missingRate&quot;, &quot;isNumeric&quot;, &quot;CaseOnly&quot;)
+rownames(SUMmat)=colnames(dat)
+for(i in 1:nrow(SUMmat)) {
+  if(is.numeric(dat[,i])) {
+    SUMmat[i,1:5]=fivenum(dat[,i])
+    SUMmat[i,6]=mean(dat[,i], na.rm = T)
+    SUMmat[i,7]=sd(dat[,i], na.rm = T)
+    naIdx=which(!is.na(dat[,i]))
+    SUMmat[i,8]=1-length(naIdx)/nrow(dat)
+    SUMmat[i,9]=T
+    SUMmat[i,10]=ifelse(length(unique(dat[naIdx,1]))==1, T, F)
+
+    idx=which(dat[,i] &gt; SUMmat[i,6]+cutoff*SUMmat[i,7])
+    if(length(idx)&gt;0) {
+      for(j in 1:length(idx)) {
+        print(paste0(&quot;sample id: &quot;,dat[idx[j],2], &quot;, col:&quot;, colnames(dat)[i], &quot;, &quot;, &quot;outlier value: &quot;,  dat[idx[j], i]))
+      }
+
+    }
+  } else {
+    SUMmat[i,1:8]=NA
+    SUMmat[i,9]=F
+  }
+}</code></pre>
+<pre><code>[1] &quot;sample id: 1591411900, col:VO2HRVMAX, outlier value: 84&quot;
+[1] &quot;sample id: 1295458900, col:VO2KGATVMAX, outlier value: 1344.83&quot;</code></pre>
+<pre class="r"><code>write.table(SUMmat, &quot;Als_sumDat.txt&quot;, row.names = T, col.names = T, quote = F)
+
+
+
+basicSum=read.table(&quot;Als_sumDat.txt&quot;, as.is = T, header = T)
+knitr::kable(basicSum, caption = &quot;Data quality&quot;) %&gt;%
+kable_styling(&quot;striped&quot;, full_width = T)</code></pre>
+<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
+<caption>
+Data quality
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+minimum
+</th>
+<th style="text-align:right;">
+lower.hinge
+</th>
+<th style="text-align:right;">
+median
+</th>
+<th style="text-align:right;">
+upper.hinge
+</th>
+<th style="text-align:right;">
+maximum
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
+<th style="text-align:right;">
+missingRate
+</th>
+<th style="text-align:right;">
+isNumeric
+</th>
+<th style="text-align:right;">
+CaseOnly
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+casectrl
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+1.0000000
+</td>
+<td style="text-align:right;">
+1.0000000
+</td>
+<td style="text-align:right;">
+0.3827160
+</td>
+<td style="text-align:right;">
+0.4870531
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+id
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+sex
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+1.0000000
+</td>
+<td style="text-align:right;">
+1.0000000
+</td>
+<td style="text-align:right;">
+1.0000000
+</td>
+<td style="text-align:right;">
+0.5596708
+</td>
+<td style="text-align:right;">
+0.4974512
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age
+</td>
+<td style="text-align:right;">
+20.0000000
+</td>
+<td style="text-align:right;">
+44.0000000
+</td>
+<td style="text-align:right;">
+53.0000000
+</td>
+<td style="text-align:right;">
+60.0000000
+</td>
+<td style="text-align:right;">
+81.0000000
+</td>
+<td style="text-align:right;">
+52.1481481
+</td>
+<td style="text-align:right;">
+11.4640413
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+height
+</td>
+<td style="text-align:right;">
+143.0000000
+</td>
+<td style="text-align:right;">
+160.0000000
+</td>
+<td style="text-align:right;">
+166.0000000
+</td>
+<td style="text-align:right;">
+172.0000000
+</td>
+<td style="text-align:right;">
+187.0000000
+</td>
+<td style="text-align:right;">
+166.0823045
+</td>
+<td style="text-align:right;">
+8.0869127
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+weight
+</td>
+<td style="text-align:right;">
+38.4000000
+</td>
+<td style="text-align:right;">
+58.9000000
+</td>
+<td style="text-align:right;">
+67.5000000
+</td>
+<td style="text-align:right;">
+75.9000000
+</td>
+<td style="text-align:right;">
+114.9000000
+</td>
+<td style="text-align:right;">
+67.9300412
+</td>
+<td style="text-align:right;">
+12.4048629
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2REST
+</td>
+<td style="text-align:right;">
+21.0000000
+</td>
+<td style="text-align:right;">
+234.5000000
+</td>
+<td style="text-align:right;">
+279.0000000
+</td>
+<td style="text-align:right;">
+348.5000000
+</td>
+<td style="text-align:right;">
+796.0000000
+</td>
+<td style="text-align:right;">
+300.0905172
+</td>
+<td style="text-align:right;">
+107.9820632
+</td>
+<td style="text-align:right;">
+0.0452675
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VCO2REST
+</td>
+<td style="text-align:right;">
+83.0000000
+</td>
+<td style="text-align:right;">
+206.0000000
+</td>
+<td style="text-align:right;">
+254.5000000
+</td>
+<td style="text-align:right;">
+316.5000000
+</td>
+<td style="text-align:right;">
+665.0000000
+</td>
+<td style="text-align:right;">
+269.6206897
+</td>
+<td style="text-align:right;">
+97.2900920
+</td>
+<td style="text-align:right;">
+0.0452675
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2KGREST
+</td>
+<td style="text-align:right;">
+1.5000000
+</td>
+<td style="text-align:right;">
+3.5500000
+</td>
+<td style="text-align:right;">
+4.2000000
+</td>
+<td style="text-align:right;">
+5.0000000
+</td>
+<td style="text-align:right;">
+9.3000000
+</td>
+<td style="text-align:right;">
+4.4482759
+</td>
+<td style="text-align:right;">
+1.3482381
+</td>
+<td style="text-align:right;">
+0.0452675
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RERREST
+</td>
+<td style="text-align:right;">
+0.6300000
+</td>
+<td style="text-align:right;">
+0.8200000
+</td>
+<td style="text-align:right;">
+0.8900000
+</td>
+<td style="text-align:right;">
+0.9500000
+</td>
+<td style="text-align:right;">
+1.2800000
+</td>
+<td style="text-align:right;">
+0.8856897
+</td>
+<td style="text-align:right;">
+0.1102632
+</td>
+<td style="text-align:right;">
+0.0452675
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+HRREST
+</td>
+<td style="text-align:right;">
+12.0000000
+</td>
+<td style="text-align:right;">
+75.0000000
+</td>
+<td style="text-align:right;">
+85.0000000
+</td>
+<td style="text-align:right;">
+93.0000000
+</td>
+<td style="text-align:right;">
+128.0000000
+</td>
+<td style="text-align:right;">
+84.6551724
+</td>
+<td style="text-align:right;">
+13.7161096
+</td>
+<td style="text-align:right;">
+0.0452675
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SBPREST
+</td>
+<td style="text-align:right;">
+3.0000000
+</td>
+<td style="text-align:right;">
+114.0000000
+</td>
+<td style="text-align:right;">
+125.0000000
+</td>
+<td style="text-align:right;">
+138.0000000
+</td>
+<td style="text-align:right;">
+191.0000000
+</td>
+<td style="text-align:right;">
+126.1104294
+</td>
+<td style="text-align:right;">
+20.4387088
+</td>
+<td style="text-align:right;">
+0.3292181
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DBPREST
+</td>
+<td style="text-align:right;">
+40.0000000
+</td>
+<td style="text-align:right;">
+72.0000000
+</td>
+<td style="text-align:right;">
+79.0000000
+</td>
+<td style="text-align:right;">
+87.0000000
+</td>
+<td style="text-align:right;">
+119.0000000
+</td>
+<td style="text-align:right;">
+78.7818182
+</td>
+<td style="text-align:right;">
+12.1890959
+</td>
+<td style="text-align:right;">
+0.3209877
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+WAT
+</td>
+<td style="text-align:right;">
+12.5000000
+</td>
+<td style="text-align:right;">
+50.0000000
+</td>
+<td style="text-align:right;">
+68.0000000
+</td>
+<td style="text-align:right;">
+91.0000000
+</td>
+<td style="text-align:right;">
+181.0000000
+</td>
+<td style="text-align:right;">
+73.0070423
+</td>
+<td style="text-align:right;">
+29.6154791
+</td>
+<td style="text-align:right;">
+0.1234568
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2KGAT
+</td>
+<td style="text-align:right;">
+1.9000000
+</td>
+<td style="text-align:right;">
+10.7000000
+</td>
+<td style="text-align:right;">
+13.4500000
+</td>
+<td style="text-align:right;">
+15.1000000
+</td>
+<td style="text-align:right;">
+36.1000000
+</td>
+<td style="text-align:right;">
+13.5531651
+</td>
+<td style="text-align:right;">
+4.4329443
+</td>
+<td style="text-align:right;">
+0.1028807
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RERAT
+</td>
+<td style="text-align:right;">
+0.7800000
+</td>
+<td style="text-align:right;">
+0.9700000
+</td>
+<td style="text-align:right;">
+1.0000000
+</td>
+<td style="text-align:right;">
+1.0200000
+</td>
+<td style="text-align:right;">
+1.2200000
+</td>
+<td style="text-align:right;">
+0.9964220
+</td>
+<td style="text-align:right;">
+0.0549910
+</td>
+<td style="text-align:right;">
+0.1028807
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+HRAT
+</td>
+<td style="text-align:right;">
+1.2200000
+</td>
+<td style="text-align:right;">
+104.0000000
+</td>
+<td style="text-align:right;">
+115.0000000
+</td>
+<td style="text-align:right;">
+127.0000000
+</td>
+<td style="text-align:right;">
+216.0000000
+</td>
+<td style="text-align:right;">
+116.3909174
+</td>
+<td style="text-align:right;">
+21.9256320
+</td>
+<td style="text-align:right;">
+0.1028807
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SBPAT
+</td>
+<td style="text-align:right;">
+99.0000000
+</td>
+<td style="text-align:right;">
+127.0000000
+</td>
+<td style="text-align:right;">
+139.0000000
+</td>
+<td style="text-align:right;">
+155.5000000
+</td>
+<td style="text-align:right;">
+215.0000000
+</td>
+<td style="text-align:right;">
+142.6838235
+</td>
+<td style="text-align:right;">
+23.2782532
+</td>
+<td style="text-align:right;">
+0.4403292
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DBPAT
+</td>
+<td style="text-align:right;">
+43.0000000
+</td>
+<td style="text-align:right;">
+71.0000000
+</td>
+<td style="text-align:right;">
+79.0000000
+</td>
+<td style="text-align:right;">
+86.0000000
+</td>
+<td style="text-align:right;">
+123.0000000
+</td>
+<td style="text-align:right;">
+78.5985294
+</td>
+<td style="text-align:right;">
+12.9230313
+</td>
+<td style="text-align:right;">
+0.4403292
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+WVMAX
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+74.5000000
+</td>
+<td style="text-align:right;">
+108.0000000
+</td>
+<td style="text-align:right;">
+136.0000000
+</td>
+<td style="text-align:right;">
+275.0000000
+</td>
+<td style="text-align:right;">
+105.6578723
+</td>
+<td style="text-align:right;">
+54.8318242
+</td>
+<td style="text-align:right;">
+0.0329218
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2KGVMAX
+</td>
+<td style="text-align:right;">
+1.1600000
+</td>
+<td style="text-align:right;">
+16.5000000
+</td>
+<td style="text-align:right;">
+20.2000000
+</td>
+<td style="text-align:right;">
+23.4500000
+</td>
+<td style="text-align:right;">
+56.4000000
+</td>
+<td style="text-align:right;">
+19.8488066
+</td>
+<td style="text-align:right;">
+8.1841514
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RERVMAX
+</td>
+<td style="text-align:right;">
+0.6900000
+</td>
+<td style="text-align:right;">
+1.0950000
+</td>
+<td style="text-align:right;">
+1.1700000
+</td>
+<td style="text-align:right;">
+1.2750000
+</td>
+<td style="text-align:right;">
+1.5800000
+</td>
+<td style="text-align:right;">
+1.1706173
+</td>
+<td style="text-align:right;">
+0.1647338
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+HRVMAX
+</td>
+<td style="text-align:right;">
+31.0000000
+</td>
+<td style="text-align:right;">
+125.0000000
+</td>
+<td style="text-align:right;">
+144.0000000
+</td>
+<td style="text-align:right;">
+158.0000000
+</td>
+<td style="text-align:right;">
+193.0000000
+</td>
+<td style="text-align:right;">
+139.6942149
+</td>
+<td style="text-align:right;">
+27.9383860
+</td>
+<td style="text-align:right;">
+0.0041152
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2HRVMAX
+</td>
+<td style="text-align:right;">
+2.0000000
+</td>
+<td style="text-align:right;">
+7.0000000
+</td>
+<td style="text-align:right;">
+9.0000000
+</td>
+<td style="text-align:right;">
+11.0000000
+</td>
+<td style="text-align:right;">
+84.0000000
+</td>
+<td style="text-align:right;">
+9.7568465
+</td>
+<td style="text-align:right;">
+6.1809220
+</td>
+<td style="text-align:right;">
+0.0082305
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SBPVMAX
+</td>
+<td style="text-align:right;">
+101.0000000
+</td>
+<td style="text-align:right;">
+142.0000000
+</td>
+<td style="text-align:right;">
+165.0000000
+</td>
+<td style="text-align:right;">
+191.0000000
+</td>
+<td style="text-align:right;">
+247.0000000
+</td>
+<td style="text-align:right;">
+166.9902913
+</td>
+<td style="text-align:right;">
+30.6839102
+</td>
+<td style="text-align:right;">
+0.1522634
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DBPVMAX
+</td>
+<td style="text-align:right;">
+37.0000000
+</td>
+<td style="text-align:right;">
+73.0000000
+</td>
+<td style="text-align:right;">
+82.0000000
+</td>
+<td style="text-align:right;">
+91.0000000
+</td>
+<td style="text-align:right;">
+123.0000000
+</td>
+<td style="text-align:right;">
+81.7004831
+</td>
+<td style="text-align:right;">
+14.0918330
+</td>
+<td style="text-align:right;">
+0.1481481
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+WVMAXP
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+61.0000000
+</td>
+<td style="text-align:right;">
+78.0000000
+</td>
+<td style="text-align:right;">
+95.0000000
+</td>
+<td style="text-align:right;">
+181.0000000
+</td>
+<td style="text-align:right;">
+74.8680851
+</td>
+<td style="text-align:right;">
+33.9829589
+</td>
+<td style="text-align:right;">
+0.0329218
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VEVMAXP
+</td>
+<td style="text-align:right;">
+4.0000000
+</td>
+<td style="text-align:right;">
+31.5000000
+</td>
+<td style="text-align:right;">
+40.0000000
+</td>
+<td style="text-align:right;">
+48.0000000
+</td>
+<td style="text-align:right;">
+101.0000000
+</td>
+<td style="text-align:right;">
+39.1275720
+</td>
+<td style="text-align:right;">
+15.4289956
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2KGVMAXP
+</td>
+<td style="text-align:right;">
+8.0000000
+</td>
+<td style="text-align:right;">
+54.5000000
+</td>
+<td style="text-align:right;">
+69.0000000
+</td>
+<td style="text-align:right;">
+82.5000000
+</td>
+<td style="text-align:right;">
+142.0000000
+</td>
+<td style="text-align:right;">
+67.3374486
+</td>
+<td style="text-align:right;">
+25.4879918
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+HRVMAXP
+</td>
+<td style="text-align:right;">
+4.0000000
+</td>
+<td style="text-align:right;">
+77.0000000
+</td>
+<td style="text-align:right;">
+86.0000000
+</td>
+<td style="text-align:right;">
+94.0000000
+</td>
+<td style="text-align:right;">
+162.0000000
+</td>
+<td style="text-align:right;">
+83.2933884
+</td>
+<td style="text-align:right;">
+16.9732728
+</td>
+<td style="text-align:right;">
+0.0041152
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2HRVMAXP
+</td>
+<td style="text-align:right;">
+13.0000000
+</td>
+<td style="text-align:right;">
+65.0000000
+</td>
+<td style="text-align:right;">
+79.0000000
+</td>
+<td style="text-align:right;">
+94.0000000
+</td>
+<td style="text-align:right;">
+163.0000000
+</td>
+<td style="text-align:right;">
+78.4504132
+</td>
+<td style="text-align:right;">
+25.9189532
+</td>
+<td style="text-align:right;">
+0.0041152
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VEVCO2VMAXP
+</td>
+<td style="text-align:right;">
+52.0000000
+</td>
+<td style="text-align:right;">
+72.0000000
+</td>
+<td style="text-align:right;">
+85.0000000
+</td>
+<td style="text-align:right;">
+97.0000000
+</td>
+<td style="text-align:right;">
+190.0000000
+</td>
+<td style="text-align:right;">
+88.2098765
+</td>
+<td style="text-align:right;">
+21.7002777
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+WATP
+</td>
+<td style="text-align:right;">
+12.0000000
+</td>
+<td style="text-align:right;">
+40.0000000
+</td>
+<td style="text-align:right;">
+48.0000000
+</td>
+<td style="text-align:right;">
+61.0000000
+</td>
+<td style="text-align:right;">
+102.0000000
+</td>
+<td style="text-align:right;">
+51.3283582
+</td>
+<td style="text-align:right;">
+15.8751895
+</td>
+<td style="text-align:right;">
+0.1728395
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VEATP
+</td>
+<td style="text-align:right;">
+7.0000000
+</td>
+<td style="text-align:right;">
+17.0000000
+</td>
+<td style="text-align:right;">
+20.0000000
+</td>
+<td style="text-align:right;">
+23.0000000
+</td>
+<td style="text-align:right;">
+47.0000000
+</td>
+<td style="text-align:right;">
+20.7427184
+</td>
+<td style="text-align:right;">
+5.8046928
+</td>
+<td style="text-align:right;">
+0.1522634
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2KGATP
+</td>
+<td style="text-align:right;">
+14.0000000
+</td>
+<td style="text-align:right;">
+37.0000000
+</td>
+<td style="text-align:right;">
+44.0000000
+</td>
+<td style="text-align:right;">
+53.0000000
+</td>
+<td style="text-align:right;">
+89.0000000
+</td>
+<td style="text-align:right;">
+45.9174757
+</td>
+<td style="text-align:right;">
+12.8938626
+</td>
+<td style="text-align:right;">
+0.1522634
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+HRATP
+</td>
+<td style="text-align:right;">
+43.0000000
+</td>
+<td style="text-align:right;">
+62.0000000
+</td>
+<td style="text-align:right;">
+68.0000000
+</td>
+<td style="text-align:right;">
+75.0000000
+</td>
+<td style="text-align:right;">
+120.0000000
+</td>
+<td style="text-align:right;">
+69.2585366
+</td>
+<td style="text-align:right;">
+9.8262597
+</td>
+<td style="text-align:right;">
+0.1563786
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2HRATP
+</td>
+<td style="text-align:right;">
+21.0000000
+</td>
+<td style="text-align:right;">
+56.0000000
+</td>
+<td style="text-align:right;">
+65.0000000
+</td>
+<td style="text-align:right;">
+76.0000000
+</td>
+<td style="text-align:right;">
+110.0000000
+</td>
+<td style="text-align:right;">
+66.0195122
+</td>
+<td style="text-align:right;">
+15.9038043
+</td>
+<td style="text-align:right;">
+0.1563786
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VEVCO2ATP
+</td>
+<td style="text-align:right;">
+49.0000000
+</td>
+<td style="text-align:right;">
+66.0000000
+</td>
+<td style="text-align:right;">
+76.0000000
+</td>
+<td style="text-align:right;">
+89.0000000
+</td>
+<td style="text-align:right;">
+142.0000000
+</td>
+<td style="text-align:right;">
+78.7766990
+</td>
+<td style="text-align:right;">
+16.5505476
+</td>
+<td style="text-align:right;">
+0.1522634
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2KGATVMAX
+</td>
+<td style="text-align:right;">
+8.8000000
+</td>
+<td style="text-align:right;">
+55.6500000
+</td>
+<td style="text-align:right;">
+63.7750000
+</td>
+<td style="text-align:right;">
+71.7300000
+</td>
+<td style="text-align:right;">
+1344.8300000
+</td>
+<td style="text-align:right;">
+69.7491284
+</td>
+<td style="text-align:right;">
+87.6162654
+</td>
+<td style="text-align:right;">
+0.1028807
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VEVCO2slope
+</td>
+<td style="text-align:right;">
+-14.9040000
+</td>
+<td style="text-align:right;">
+24.5810000
+</td>
+<td style="text-align:right;">
+27.3520000
+</td>
+<td style="text-align:right;">
+30.4520000
+</td>
+<td style="text-align:right;">
+44.3660000
+</td>
+<td style="text-align:right;">
+27.3968118
+</td>
+<td style="text-align:right;">
+5.6257706
+</td>
+<td style="text-align:right;">
+0.0246914
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+WeberGrading
+</td>
+<td style="text-align:right;">
+1.0000000
+</td>
+<td style="text-align:right;">
+1.0000000
+</td>
+<td style="text-align:right;">
+1.0000000
+</td>
+<td style="text-align:right;">
+2.0000000
+</td>
+<td style="text-align:right;">
+4.0000000
+</td>
+<td style="text-align:right;">
+1.7759336
+</td>
+<td style="text-align:right;">
+1.0122179
+</td>
+<td style="text-align:right;">
+0.0082305
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+OUES
+</td>
+<td style="text-align:right;">
+199.0190000
+</td>
+<td style="text-align:right;">
+1184.3390000
+</td>
+<td style="text-align:right;">
+1534.5970000
+</td>
+<td style="text-align:right;">
+1854.1230000
+</td>
+<td style="text-align:right;">
+4380.8380000
+</td>
+<td style="text-align:right;">
+1556.9218692
+</td>
+<td style="text-align:right;">
+579.3304075
+</td>
+<td style="text-align:right;">
+0.0246914
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+HRRecovery
+</td>
+<td style="text-align:right;">
+3.0000000
+</td>
+<td style="text-align:right;">
+18.0000000
+</td>
+<td style="text-align:right;">
+24.0000000
+</td>
+<td style="text-align:right;">
+31.0000000
+</td>
+<td style="text-align:right;">
+59.0000000
+</td>
+<td style="text-align:right;">
+24.9065421
+</td>
+<td style="text-align:right;">
+9.7451398
+</td>
+<td style="text-align:right;">
+0.1193416
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FVC
+</td>
+<td style="text-align:right;">
+40.0000000
+</td>
+<td style="text-align:right;">
+78.7000000
+</td>
+<td style="text-align:right;">
+90.0000000
+</td>
+<td style="text-align:right;">
+98.0000000
+</td>
+<td style="text-align:right;">
+125.0000000
+</td>
+<td style="text-align:right;">
+87.9868421
+</td>
+<td style="text-align:right;">
+14.4281053
+</td>
+<td style="text-align:right;">
+0.0617284
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FEV1
+</td>
+<td style="text-align:right;">
+33.0000000
+</td>
+<td style="text-align:right;">
+79.5000000
+</td>
+<td style="text-align:right;">
+91.0000000
+</td>
+<td style="text-align:right;">
+99.0000000
+</td>
+<td style="text-align:right;">
+121.0000000
+</td>
+<td style="text-align:right;">
+88.9464912
+</td>
+<td style="text-align:right;">
+14.8768553
+</td>
+<td style="text-align:right;">
+0.0617284
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FEV1FVC
+</td>
+<td style="text-align:right;">
+43.0000000
+</td>
+<td style="text-align:right;">
+76.0000000
+</td>
+<td style="text-align:right;">
+81.1300000
+</td>
+<td style="text-align:right;">
+88.0000000
+</td>
+<td style="text-align:right;">
+113.0000000
+</td>
+<td style="text-align:right;">
+83.0824123
+</td>
+<td style="text-align:right;">
+11.1375318
+</td>
+<td style="text-align:right;">
+0.0617284
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FEF25
+</td>
+<td style="text-align:right;">
+15.0000000
+</td>
+<td style="text-align:right;">
+66.0000000
+</td>
+<td style="text-align:right;">
+86.0000000
+</td>
+<td style="text-align:right;">
+107.0000000
+</td>
+<td style="text-align:right;">
+162.0000000
+</td>
+<td style="text-align:right;">
+86.5184211
+</td>
+<td style="text-align:right;">
+28.1980459
+</td>
+<td style="text-align:right;">
+0.0617284
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FEF75
+</td>
+<td style="text-align:right;">
+12.0000000
+</td>
+<td style="text-align:right;">
+59.5000000
+</td>
+<td style="text-align:right;">
+75.5000000
+</td>
+<td style="text-align:right;">
+99.5000000
+</td>
+<td style="text-align:right;">
+268.0000000
+</td>
+<td style="text-align:right;">
+81.1789474
+</td>
+<td style="text-align:right;">
+33.1258353
+</td>
+<td style="text-align:right;">
+0.0617284
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FEF2575
+</td>
+<td style="text-align:right;">
+13.0000000
+</td>
+<td style="text-align:right;">
+71.0000000
+</td>
+<td style="text-align:right;">
+93.0000000
+</td>
+<td style="text-align:right;">
+110.0000000
+</td>
+<td style="text-align:right;">
+233.0000000
+</td>
+<td style="text-align:right;">
+92.9543860
+</td>
+<td style="text-align:right;">
+29.4742915
+</td>
+<td style="text-align:right;">
+0.0617284
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FEFMAX
+</td>
+<td style="text-align:right;">
+15.0000000
+</td>
+<td style="text-align:right;">
+59.0000000
+</td>
+<td style="text-align:right;">
+80.0000000
+</td>
+<td style="text-align:right;">
+97.0000000
+</td>
+<td style="text-align:right;">
+135.0000000
+</td>
+<td style="text-align:right;">
+78.1254386
+</td>
+<td style="text-align:right;">
+23.7280214
+</td>
+<td style="text-align:right;">
+0.0617284
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FIVC
+</td>
+<td style="text-align:right;">
+1.2200000
+</td>
+<td style="text-align:right;">
+2.2350000
+</td>
+<td style="text-align:right;">
+2.8300000
+</td>
+<td style="text-align:right;">
+3.7850000
+</td>
+<td style="text-align:right;">
+6.4300000
+</td>
+<td style="text-align:right;">
+3.0547807
+</td>
+<td style="text-align:right;">
+1.0066276
+</td>
+<td style="text-align:right;">
+0.0617284
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FIFMAX
+</td>
+<td style="text-align:right;">
+0.7500000
+</td>
+<td style="text-align:right;">
+1.8850000
+</td>
+<td style="text-align:right;">
+2.6300000
+</td>
+<td style="text-align:right;">
+3.7850000
+</td>
+<td style="text-align:right;">
+8.5700000
+</td>
+<td style="text-align:right;">
+2.8509649
+</td>
+<td style="text-align:right;">
+1.2723709
+</td>
+<td style="text-align:right;">
+0.0617284
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MVV
+</td>
+<td style="text-align:right;">
+12.0000000
+</td>
+<td style="text-align:right;">
+73.0000000
+</td>
+<td style="text-align:right;">
+88.0000000
+</td>
+<td style="text-align:right;">
+101.0000000
+</td>
+<td style="text-align:right;">
+145.0000000
+</td>
+<td style="text-align:right;">
+86.1951220
+</td>
+<td style="text-align:right;">
+23.5890257
+</td>
+<td style="text-align:right;">
+0.1563786
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SVC
+</td>
+<td style="text-align:right;">
+11.0000000
+</td>
+<td style="text-align:right;">
+78.0000000
+</td>
+<td style="text-align:right;">
+88.0000000
+</td>
+<td style="text-align:right;">
+97.0000000
+</td>
+<td style="text-align:right;">
+124.0000000
+</td>
+<td style="text-align:right;">
+86.9103774
+</td>
+<td style="text-align:right;">
+15.8815666
+</td>
+<td style="text-align:right;">
+0.1275720
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+IC
+</td>
+<td style="text-align:right;">
+22.0000000
+</td>
+<td style="text-align:right;">
+76.0000000
+</td>
+<td style="text-align:right;">
+88.0000000
+</td>
+<td style="text-align:right;">
+102.0000000
+</td>
+<td style="text-align:right;">
+150.1000000
+</td>
+<td style="text-align:right;">
+88.3240175
+</td>
+<td style="text-align:right;">
+20.4364374
+</td>
+<td style="text-align:right;">
+0.0576132
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ERV
+</td>
+<td style="text-align:right;">
+16.0000000
+</td>
+<td style="text-align:right;">
+60.5000000
+</td>
+<td style="text-align:right;">
+85.0000000
+</td>
+<td style="text-align:right;">
+113.5000000
+</td>
+<td style="text-align:right;">
+283.0000000
+</td>
+<td style="text-align:right;">
+89.3622807
+</td>
+<td style="text-align:right;">
+40.6693466
+</td>
+<td style="text-align:right;">
+0.0617284
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+IntracellularWater
+</td>
+<td style="text-align:right;">
+13.3000000
+</td>
+<td style="text-align:right;">
+18.2000000
+</td>
+<td style="text-align:right;">
+21.0000000
+</td>
+<td style="text-align:right;">
+25.5000000
+</td>
+<td style="text-align:right;">
+34.7000000
+</td>
+<td style="text-align:right;">
+21.7287554
+</td>
+<td style="text-align:right;">
+4.4329766
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ExtracellularWater
+</td>
+<td style="text-align:right;">
+8.5000000
+</td>
+<td style="text-align:right;">
+11.4000000
+</td>
+<td style="text-align:right;">
+13.2000000
+</td>
+<td style="text-align:right;">
+15.5000000
+</td>
+<td style="text-align:right;">
+21.5000000
+</td>
+<td style="text-align:right;">
+13.5682403
+</td>
+<td style="text-align:right;">
+2.5948764
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Protein
+</td>
+<td style="text-align:right;">
+5.8000000
+</td>
+<td style="text-align:right;">
+7.9000000
+</td>
+<td style="text-align:right;">
+9.1000000
+</td>
+<td style="text-align:right;">
+11.0000000
+</td>
+<td style="text-align:right;">
+15.0000000
+</td>
+<td style="text-align:right;">
+9.3957082
+</td>
+<td style="text-align:right;">
+1.9181480
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+InorganicSalt
+</td>
+<td style="text-align:right;">
+2.1800000
+</td>
+<td style="text-align:right;">
+2.8700000
+</td>
+<td style="text-align:right;">
+3.2600000
+</td>
+<td style="text-align:right;">
+3.7900000
+</td>
+<td style="text-align:right;">
+5.3200000
+</td>
+<td style="text-align:right;">
+3.3236052
+</td>
+<td style="text-align:right;">
+0.6241835
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FatMass
+</td>
+<td style="text-align:right;">
+3.7000000
+</td>
+<td style="text-align:right;">
+16.0000000
+</td>
+<td style="text-align:right;">
+19.6000000
+</td>
+<td style="text-align:right;">
+24.0000000
+</td>
+<td style="text-align:right;">
+44.3000000
+</td>
+<td style="text-align:right;">
+20.0991416
+</td>
+<td style="text-align:right;">
+6.2245620
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SoftLeanMass
+</td>
+<td style="text-align:right;">
+28.2000000
+</td>
+<td style="text-align:right;">
+38.0000000
+</td>
+<td style="text-align:right;">
+43.6000000
+</td>
+<td style="text-align:right;">
+52.7000000
+</td>
+<td style="text-align:right;">
+72.1000000
+</td>
+<td style="text-align:right;">
+45.2669528
+</td>
+<td style="text-align:right;">
+9.0400249
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FatFreeMass
+</td>
+<td style="text-align:right;">
+30.1000000
+</td>
+<td style="text-align:right;">
+40.4000000
+</td>
+<td style="text-align:right;">
+46.3000000
+</td>
+<td style="text-align:right;">
+55.7000000
+</td>
+<td style="text-align:right;">
+76.5000000
+</td>
+<td style="text-align:right;">
+48.0141631
+</td>
+<td style="text-align:right;">
+9.5347692
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BodyWater
+</td>
+<td style="text-align:right;">
+22.0000000
+</td>
+<td style="text-align:right;">
+29.6000000
+</td>
+<td style="text-align:right;">
+34.0000000
+</td>
+<td style="text-align:right;">
+40.9000000
+</td>
+<td style="text-align:right;">
+56.2000000
+</td>
+<td style="text-align:right;">
+35.2969957
+</td>
+<td style="text-align:right;">
+7.0095772
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SkeletalMuscleMass
+</td>
+<td style="text-align:right;">
+15.4000000
+</td>
+<td style="text-align:right;">
+21.7000000
+</td>
+<td style="text-align:right;">
+25.3000000
+</td>
+<td style="text-align:right;">
+31.2000000
+</td>
+<td style="text-align:right;">
+43.3000000
+</td>
+<td style="text-align:right;">
+26.3386266
+</td>
+<td style="text-align:right;">
+5.7828791
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SMM
+</td>
+<td style="text-align:right;">
+66.0000000
+</td>
+<td style="text-align:right;">
+90.5000000
+</td>
+<td style="text-align:right;">
+97.6000000
+</td>
+<td style="text-align:right;">
+104.8000000
+</td>
+<td style="text-align:right;">
+130.3000000
+</td>
+<td style="text-align:right;">
+97.3751073
+</td>
+<td style="text-align:right;">
+10.4709359
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FM
+</td>
+<td style="text-align:right;">
+18.6000000
+</td>
+<td style="text-align:right;">
+155.6000000
+</td>
+<td style="text-align:right;">
+199.9000000
+</td>
+<td style="text-align:right;">
+248.3000000
+</td>
+<td style="text-align:right;">
+423.7000000
+</td>
+<td style="text-align:right;">
+202.9429185
+</td>
+<td style="text-align:right;">
+69.4770525
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMI
+</td>
+<td style="text-align:right;">
+14.3000000
+</td>
+<td style="text-align:right;">
+22.5000000
+</td>
+<td style="text-align:right;">
+24.4000000
+</td>
+<td style="text-align:right;">
+26.6000000
+</td>
+<td style="text-align:right;">
+36.3000000
+</td>
+<td style="text-align:right;">
+24.5935622
+</td>
+<td style="text-align:right;">
+3.3806883
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PercentBodyFat
+</td>
+<td style="text-align:right;">
+8.7000000
+</td>
+<td style="text-align:right;">
+24.8000000
+</td>
+<td style="text-align:right;">
+29.8000000
+</td>
+<td style="text-align:right;">
+34.4000000
+</td>
+<td style="text-align:right;">
+50.7000000
+</td>
+<td style="text-align:right;">
+29.3763948
+</td>
+<td style="text-align:right;">
+6.9291489
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+WaistHipRatio
+</td>
+<td style="text-align:right;">
+0.7100000
+</td>
+<td style="text-align:right;">
+0.8500000
+</td>
+<td style="text-align:right;">
+0.8800000
+</td>
+<td style="text-align:right;">
+0.9200000
+</td>
+<td style="text-align:right;">
+0.9700000
+</td>
+<td style="text-align:right;">
+0.8819742
+</td>
+<td style="text-align:right;">
+0.0472289
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VisceralFatArea
+</td>
+<td style="text-align:right;">
+11.7000000
+</td>
+<td style="text-align:right;">
+68.1000000
+</td>
+<td style="text-align:right;">
+91.8000000
+</td>
+<td style="text-align:right;">
+115.9000000
+</td>
+<td style="text-align:right;">
+211.1000000
+</td>
+<td style="text-align:right;">
+95.1253219
+</td>
+<td style="text-align:right;">
+36.3052671
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RA
+</td>
+<td style="text-align:right;">
+1.1200000
+</td>
+<td style="text-align:right;">
+1.9800000
+</td>
+<td style="text-align:right;">
+2.4800000
+</td>
+<td style="text-align:right;">
+3.1000000
+</td>
+<td style="text-align:right;">
+4.4400000
+</td>
+<td style="text-align:right;">
+2.5562661
+</td>
+<td style="text-align:right;">
+0.7194540
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RAp
+</td>
+<td style="text-align:right;">
+51.4000000
+</td>
+<td style="text-align:right;">
+87.3000000
+</td>
+<td style="text-align:right;">
+101.0000000
+</td>
+<td style="text-align:right;">
+111.9000000
+</td>
+<td style="text-align:right;">
+161.0000000
+</td>
+<td style="text-align:right;">
+100.5742489
+</td>
+<td style="text-align:right;">
+17.9186049
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RAIp
+</td>
+<td style="text-align:right;">
+56.1000000
+</td>
+<td style="text-align:right;">
+88.1000000
+</td>
+<td style="text-align:right;">
+97.3000000
+</td>
+<td style="text-align:right;">
+106.6000000
+</td>
+<td style="text-align:right;">
+147.2000000
+</td>
+<td style="text-align:right;">
+97.0832618
+</td>
+<td style="text-align:right;">
+13.7671092
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LA
+</td>
+<td style="text-align:right;">
+1.0100000
+</td>
+<td style="text-align:right;">
+1.9400000
+</td>
+<td style="text-align:right;">
+2.4600000
+</td>
+<td style="text-align:right;">
+3.1000000
+</td>
+<td style="text-align:right;">
+4.3400000
+</td>
+<td style="text-align:right;">
+2.5177253
+</td>
+<td style="text-align:right;">
+0.7070296
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Lap
+</td>
+<td style="text-align:right;">
+52.1000000
+</td>
+<td style="text-align:right;">
+87.8000000
+</td>
+<td style="text-align:right;">
+98.7000000
+</td>
+<td style="text-align:right;">
+111.6000000
+</td>
+<td style="text-align:right;">
+150.5000000
+</td>
+<td style="text-align:right;">
+99.1072961
+</td>
+<td style="text-align:right;">
+17.5153944
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LAIp
+</td>
+<td style="text-align:right;">
+56.2000000
+</td>
+<td style="text-align:right;">
+87.3000000
+</td>
+<td style="text-align:right;">
+96.2000000
+</td>
+<td style="text-align:right;">
+104.4000000
+</td>
+<td style="text-align:right;">
+136.3000000
+</td>
+<td style="text-align:right;">
+95.6055794
+</td>
+<td style="text-align:right;">
+13.3031955
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+TK
+</td>
+<td style="text-align:right;">
+12.4700000
+</td>
+<td style="text-align:right;">
+17.9300000
+</td>
+<td style="text-align:right;">
+21.1500000
+</td>
+<td style="text-align:right;">
+24.7800000
+</td>
+<td style="text-align:right;">
+32.3600000
+</td>
+<td style="text-align:right;">
+21.4240343
+</td>
+<td style="text-align:right;">
+4.3165353
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+TKp
+</td>
+<td style="text-align:right;">
+67.0000000
+</td>
+<td style="text-align:right;">
+92.0000000
+</td>
+<td style="text-align:right;">
+100.5000000
+</td>
+<td style="text-align:right;">
+107.0000000
+</td>
+<td style="text-align:right;">
+124.1000000
+</td>
+<td style="text-align:right;">
+99.9231760
+</td>
+<td style="text-align:right;">
+10.9719499
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+TKIp
+</td>
+<td style="text-align:right;">
+73.6000000
+</td>
+<td style="text-align:right;">
+92.2000000
+</td>
+<td style="text-align:right;">
+97.8000000
+</td>
+<td style="text-align:right;">
+102.1000000
+</td>
+<td style="text-align:right;">
+112.3000000
+</td>
+<td style="text-align:right;">
+96.9824034
+</td>
+<td style="text-align:right;">
+7.3922717
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RL
+</td>
+<td style="text-align:right;">
+4.1600000
+</td>
+<td style="text-align:right;">
+6.1100000
+</td>
+<td style="text-align:right;">
+7.0900000
+</td>
+<td style="text-align:right;">
+8.5700000
+</td>
+<td style="text-align:right;">
+11.8900000
+</td>
+<td style="text-align:right;">
+7.3843777
+</td>
+<td style="text-align:right;">
+1.6271335
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RLp
+</td>
+<td style="text-align:right;">
+72.1000000
+</td>
+<td style="text-align:right;">
+93.0000000
+</td>
+<td style="text-align:right;">
+98.3000000
+</td>
+<td style="text-align:right;">
+104.9000000
+</td>
+<td style="text-align:right;">
+128.9000000
+</td>
+<td style="text-align:right;">
+98.3862661
+</td>
+<td style="text-align:right;">
+9.5682116
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RLIp
+</td>
+<td style="text-align:right;">
+72.6000000
+</td>
+<td style="text-align:right;">
+91.6000000
+</td>
+<td style="text-align:right;">
+95.9000000
+</td>
+<td style="text-align:right;">
+100.0000000
+</td>
+<td style="text-align:right;">
+114.7000000
+</td>
+<td style="text-align:right;">
+95.4416309
+</td>
+<td style="text-align:right;">
+7.1856557
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LL
+</td>
+<td style="text-align:right;">
+4.0900000
+</td>
+<td style="text-align:right;">
+6.1100000
+</td>
+<td style="text-align:right;">
+7.1000000
+</td>
+<td style="text-align:right;">
+8.5700000
+</td>
+<td style="text-align:right;">
+11.7800000
+</td>
+<td style="text-align:right;">
+7.3599142
+</td>
+<td style="text-align:right;">
+1.6045141
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LLp
+</td>
+<td style="text-align:right;">
+71.9000000
+</td>
+<td style="text-align:right;">
+93.0000000
+</td>
+<td style="text-align:right;">
+97.7000000
+</td>
+<td style="text-align:right;">
+104.0000000
+</td>
+<td style="text-align:right;">
+127.8000000
+</td>
+<td style="text-align:right;">
+98.0433476
+</td>
+<td style="text-align:right;">
+9.0989797
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LLIp
+</td>
+<td style="text-align:right;">
+71.3000000
+</td>
+<td style="text-align:right;">
+91.7000000
+</td>
+<td style="text-align:right;">
+95.6000000
+</td>
+<td style="text-align:right;">
+99.3000000
+</td>
+<td style="text-align:right;">
+117.3000000
+</td>
+<td style="text-align:right;">
+95.1429185
+</td>
+<td style="text-align:right;">
+7.0480955
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RAF
+</td>
+<td style="text-align:right;">
+0.3190000
+</td>
+<td style="text-align:right;">
+0.3310000
+</td>
+<td style="text-align:right;">
+0.3340000
+</td>
+<td style="text-align:right;">
+0.3380000
+</td>
+<td style="text-align:right;">
+0.3530000
+</td>
+<td style="text-align:right;">
+0.3347639
+</td>
+<td style="text-align:right;">
+0.0056530
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LAF
+</td>
+<td style="text-align:right;">
+0.3230000
+</td>
+<td style="text-align:right;">
+0.3310000
+</td>
+<td style="text-align:right;">
+0.3350000
+</td>
+<td style="text-align:right;">
+0.3380000
+</td>
+<td style="text-align:right;">
+0.3540000
+</td>
+<td style="text-align:right;">
+0.3351545
+</td>
+<td style="text-align:right;">
+0.0052245
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+TKF
+</td>
+<td style="text-align:right;">
+0.3210000
+</td>
+<td style="text-align:right;">
+0.3330000
+</td>
+<td style="text-align:right;">
+0.3370000
+</td>
+<td style="text-align:right;">
+0.3420000
+</td>
+<td style="text-align:right;">
+0.3590000
+</td>
+<td style="text-align:right;">
+0.3374464
+</td>
+<td style="text-align:right;">
+0.0071732
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RLF
+</td>
+<td style="text-align:right;">
+0.3190000
+</td>
+<td style="text-align:right;">
+0.3340000
+</td>
+<td style="text-align:right;">
+0.3380000
+</td>
+<td style="text-align:right;">
+0.3440000
+</td>
+<td style="text-align:right;">
+0.3710000
+</td>
+<td style="text-align:right;">
+0.3391588
+</td>
+<td style="text-align:right;">
+0.0091579
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RAW
+</td>
+<td style="text-align:right;">
+0.3650000
+</td>
+<td style="text-align:right;">
+0.3780000
+</td>
+<td style="text-align:right;">
+0.3810000
+</td>
+<td style="text-align:right;">
+0.3850000
+</td>
+<td style="text-align:right;">
+0.4010000
+</td>
+<td style="text-align:right;">
+0.3816481
+</td>
+<td style="text-align:right;">
+0.0059252
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LAW
+</td>
+<td style="text-align:right;">
+0.3690000
+</td>
+<td style="text-align:right;">
+0.3780000
+</td>
+<td style="text-align:right;">
+0.3820000
+</td>
+<td style="text-align:right;">
+0.3850000
+</td>
+<td style="text-align:right;">
+0.4020000
+</td>
+<td style="text-align:right;">
+0.3820815
+</td>
+<td style="text-align:right;">
+0.0055279
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+TKW
+</td>
+<td style="text-align:right;">
+0.3670000
+</td>
+<td style="text-align:right;">
+0.3800000
+</td>
+<td style="text-align:right;">
+0.3840000
+</td>
+<td style="text-align:right;">
+0.3900000
+</td>
+<td style="text-align:right;">
+0.4070000
+</td>
+<td style="text-align:right;">
+0.3844678
+</td>
+<td style="text-align:right;">
+0.0075595
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RLW
+</td>
+<td style="text-align:right;">
+0.3650000
+</td>
+<td style="text-align:right;">
+0.3800000
+</td>
+<td style="text-align:right;">
+0.3850000
+</td>
+<td style="text-align:right;">
+0.3920000
+</td>
+<td style="text-align:right;">
+0.4200000
+</td>
+<td style="text-align:right;">
+0.3862876
+</td>
+<td style="text-align:right;">
+0.0096158
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ECFTBF
+</td>
+<td style="text-align:right;">
+0.3220000
+</td>
+<td style="text-align:right;">
+0.3340000
+</td>
+<td style="text-align:right;">
+0.3370000
+</td>
+<td style="text-align:right;">
+0.3430000
+</td>
+<td style="text-align:right;">
+0.3590000
+</td>
+<td style="text-align:right;">
+0.3379442
+</td>
+<td style="text-align:right;">
+0.0070075
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ECWTBW
+</td>
+<td style="text-align:right;">
+0.3680000
+</td>
+<td style="text-align:right;">
+0.3800000
+</td>
+<td style="text-align:right;">
+0.3840000
+</td>
+<td style="text-align:right;">
+0.3900000
+</td>
+<td style="text-align:right;">
+0.4070000
+</td>
+<td style="text-align:right;">
+0.3850000
+</td>
+<td style="text-align:right;">
+0.0073725
+</td>
+<td style="text-align:right;">
+0.0411523
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+mREE
+</td>
+<td style="text-align:right;">
+457.9164878
+</td>
+<td style="text-align:right;">
+1633.1976470
+</td>
+<td style="text-align:right;">
+1957.6915385
+</td>
+<td style="text-align:right;">
+2418.6773550
+</td>
+<td style="text-align:right;">
+5522.9295480
+</td>
+<td style="text-align:right;">
+2112.3070184
+</td>
+<td style="text-align:right;">
+753.1221338
+</td>
+<td style="text-align:right;">
+0.0452675
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+cREE
+</td>
+<td style="text-align:right;">
+1033.6780000
+</td>
+<td style="text-align:right;">
+1278.9590000
+</td>
+<td style="text-align:right;">
+1414.5950000
+</td>
+<td style="text-align:right;">
+1590.2800000
+</td>
+<td style="text-align:right;">
+2226.0700000
+</td>
+<td style="text-align:right;">
+1452.4547407
+</td>
+<td style="text-align:right;">
+232.0336696
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+REEp
+</td>
+<td style="text-align:right;">
+0.3300000
+</td>
+<td style="text-align:right;">
+1.1650000
+</td>
+<td style="text-align:right;">
+1.3950000
+</td>
+<td style="text-align:right;">
+1.6400000
+</td>
+<td style="text-align:right;">
+3.0800000
+</td>
+<td style="text-align:right;">
+1.4452155
+</td>
+<td style="text-align:right;">
+0.4214980
+</td>
+<td style="text-align:right;">
+0.0452675
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AgeOfOnset
+</td>
+<td style="text-align:right;">
+24.0000000
+</td>
+<td style="text-align:right;">
+43.0000000
+</td>
+<td style="text-align:right;">
+53.0000000
+</td>
+<td style="text-align:right;">
+61.0000000
+</td>
+<td style="text-align:right;">
+75.0000000
+</td>
+<td style="text-align:right;">
+52.0430108
+</td>
+<td style="text-align:right;">
+11.2190773
+</td>
+<td style="text-align:right;">
+0.6172840
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SiteOfOnset
+</td>
+<td style="text-align:right;">
+1.0000000
+</td>
+<td style="text-align:right;">
+2.0000000
+</td>
+<td style="text-align:right;">
+2.0000000
+</td>
+<td style="text-align:right;">
+2.0000000
+</td>
+<td style="text-align:right;">
+4.0000000
+</td>
+<td style="text-align:right;">
+2.1290323
+</td>
+<td style="text-align:right;">
+0.8995869
+</td>
+<td style="text-align:right;">
+0.6172840
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DelayDays
+</td>
+<td style="text-align:right;">
+60.0000000
+</td>
+<td style="text-align:right;">
+225.0000000
+</td>
+<td style="text-align:right;">
+334.0000000
+</td>
+<td style="text-align:right;">
+498.0000000
+</td>
+<td style="text-align:right;">
+1848.0000000
+</td>
+<td style="text-align:right;">
+417.9784946
+</td>
+<td style="text-align:right;">
+306.7132912
+</td>
+<td style="text-align:right;">
+0.6172840
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DelayMonths
+</td>
+<td style="text-align:right;">
+2.0000000
+</td>
+<td style="text-align:right;">
+7.5000000
+</td>
+<td style="text-align:right;">
+11.1333333
+</td>
+<td style="text-align:right;">
+16.6000000
+</td>
+<td style="text-align:right;">
+61.6000000
+</td>
+<td style="text-align:right;">
+13.9322581
+</td>
+<td style="text-align:right;">
+10.2232808
+</td>
+<td style="text-align:right;">
+0.6172840
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+heightpre
+</td>
+<td style="text-align:right;">
+143.0000000
+</td>
+<td style="text-align:right;">
+160.0000000
+</td>
+<td style="text-align:right;">
+167.0000000
+</td>
+<td style="text-align:right;">
+172.0000000
+</td>
+<td style="text-align:right;">
+183.0000000
+</td>
+<td style="text-align:right;">
+165.8172043
+</td>
+<td style="text-align:right;">
+7.6142690
+</td>
+<td style="text-align:right;">
+0.6172840
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+weightpre
+</td>
+<td style="text-align:right;">
+49.0000000
+</td>
+<td style="text-align:right;">
+56.5000000
+</td>
+<td style="text-align:right;">
+67.0000000
+</td>
+<td style="text-align:right;">
+75.0000000
+</td>
+<td style="text-align:right;">
+115.0000000
+</td>
+<td style="text-align:right;">
+67.7010870
+</td>
+<td style="text-align:right;">
+12.2850887
+</td>
+<td style="text-align:right;">
+0.6213992
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+weightdiagnosis
+</td>
+<td style="text-align:right;">
+37.0000000
+</td>
+<td style="text-align:right;">
+55.5000000
+</td>
+<td style="text-align:right;">
+66.0000000
+</td>
+<td style="text-align:right;">
+72.0000000
+</td>
+<td style="text-align:right;">
+110.0000000
+</td>
+<td style="text-align:right;">
+65.2554348
+</td>
+<td style="text-align:right;">
+11.8767699
+</td>
+<td style="text-align:right;">
+0.6213992
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMIpre
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+22.7583068
+</td>
+<td style="text-align:right;">
+23.8751148
+</td>
+<td style="text-align:right;">
+26.4721074
+</td>
+<td style="text-align:right;">
+36.2959222
+</td>
+<td style="text-align:right;">
+24.2881376
+</td>
+<td style="text-align:right;">
+4.2378768
+</td>
+<td style="text-align:right;">
+0.6172840
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMIdiagnosis
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+21.6441207
+</td>
+<td style="text-align:right;">
+23.3843537
+</td>
+<td style="text-align:right;">
+25.8585722
+</td>
+<td style="text-align:right;">
+34.7178387
+</td>
+<td style="text-align:right;">
+23.4042402
+</td>
+<td style="text-align:right;">
+4.0733476
+</td>
+<td style="text-align:right;">
+0.6172840
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ALSFRSRDiagnosis
+</td>
+<td style="text-align:right;">
+28.0000000
+</td>
+<td style="text-align:right;">
+39.0000000
+</td>
+<td style="text-align:right;">
+43.0000000
+</td>
+<td style="text-align:right;">
+45.0000000
+</td>
+<td style="text-align:right;">
+48.0000000
+</td>
+<td style="text-align:right;">
+42.1931818
+</td>
+<td style="text-align:right;">
+4.1657000
+</td>
+<td style="text-align:right;">
+0.6378601
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+chWeightPre
+</td>
+<td style="text-align:right;">
+-2.8571429
+</td>
+<td style="text-align:right;">
+-0.3861435
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+0.4615385
+</td>
+<td style="text-align:right;">
+-0.2662982
+</td>
+<td style="text-align:right;">
+0.5416928
+</td>
+<td style="text-align:right;">
+0.6213992
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+chBMIPre
+</td>
+<td style="text-align:right;">
+-0.1666173
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+0.1529955
+</td>
+<td style="text-align:right;">
+0.9657730
+</td>
+<td style="text-align:right;">
+0.0958385
+</td>
+<td style="text-align:right;">
+0.1898371
+</td>
+<td style="text-align:right;">
+0.6213992
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+chFSPre
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+<td style="text-align:right;">
+0.1750628
+</td>
+<td style="text-align:right;">
+0.4216035
+</td>
+<td style="text-align:right;">
+0.7183535
+</td>
+<td style="text-align:right;">
+2.4161074
+</td>
+<td style="text-align:right;">
+0.5358948
+</td>
+<td style="text-align:right;">
+0.5050161
+</td>
+<td style="text-align:right;">
+0.6378601
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>#row_spec(row=16:16, color=&quot;white&quot;, background=&quot;red&quot;)</code></pre>
+</div>
+<div id="feature-selection" class="section level2">
+<h2>Feature selection</h2>
+<pre class="r"><code>Smat=matrix(0, ncol(dat)-2, 4)
+
+for(i in 3:ncol(dat)) {
+  mod=glm(dat[,1]~dat[,i], family = &quot;binomial&quot;)
+  Smat[i-2,]=summary(mod)$coefficients[2,]
+}
+rownames(Smat)=colnames(dat)[3:ncol(dat)]
+
+
+aucMat=matrix(2, ncol(dat)-2, 1)
+rownames(aucMat)=colnames(dat)[3:ncol(dat)]
+for(i in 3:ncol(dat)) {
+  if(!SUMmat[colnames(dat)[i],10]) {
+    rocObj=roc(dat[,1], dat[,i], quiet = T)
+    aucMat[i-2,1]=rocObj$auc
+  }
+}
+
+layout(matrix(c(1, 2, 3, 4), 2, 2, byrow = F))
+par(las=2, cex=0.5, mai=c(1,0.5,0.5,0.5))
+pcut=-log10(0.05/(ncol(dat)-2))
+barplot(main=&quot;case-control&quot;,-log10(Smat[,4]), col=ifelse(-log10(Smat[,4])&gt;pcut, &quot;cyan&quot;, &quot;grey&quot;))
+abline(h=-log10(0.05/ncol(dat)), col=&quot;red&quot;, lty=2)
+
+barplot(main=&quot;case-control&quot;, aucMat, beside = T, col=ifelse(-log10(Smat[,4])&gt;pcut, &quot;cyan&quot;, &quot;grey&quot;))
+plot(-log10(Smat[,4]), pch=16,aucMat,col=ifelse(-log10(Smat[,4])&gt;pcut, &quot;cyan&quot;, &quot;grey&quot;))
+abline(v=pcut, col=&quot;red&quot;, lty=2)
+
+###########
+SVCmat=matrix(1, ncol(dat)-2, 4)
+for(i in 3:ncol(dat)) {
+  if(i!=68) {
+    mod=lm(dat[,68]~dat[,i])
+    if(nrow(summary(mod)$coefficients)&gt;1) {
+      SVCmat[i-2,]=summary(mod)$coefficients[2,]
+    }
+  }
+}
+rownames(SVCmat)=colnames(dat)[3:ncol(dat)]
+
+par(las=2, cex=0.5, mai=c(1.5,0.5,0.5,0.5))
+pcut=-log10(0.05/(ncol(dat)-2))
+barplot(-log10(Smat[,4]), col=ifelse(-log10(Smat[,4])&gt;pcut, &quot;cyan&quot;, &quot;grey&quot;))
+abline(h=-log10(0.05/ncol(dat)), col=&quot;red&quot;, lty=2)</code></pre>
+<p><img src="figure/ALS_BodyTest.Rmd/data-p-1.png" width="672" style="display: block; margin: auto;" /></p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.6.2 (2019-12-12)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS Catalina 10.15.6
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] kableExtra_1.1.0 knitr_1.28       pROC_1.16.1      workflowr_1.6.2 
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.3        highr_0.8         compiler_3.6.2    pillar_1.4.3     
+ [5] later_1.0.0       git2r_0.26.1      plyr_1.8.6        tools_3.6.2      
+ [9] digest_0.6.25     viridisLite_0.3.0 evaluate_0.14     tibble_3.0.3     
+[13] lifecycle_0.2.0   pkgconfig_2.0.3   rlang_0.4.7       rstudioapi_0.11  
+[17] yaml_2.2.1        xfun_0.12         stringr_1.4.0     httr_1.4.1       
+[21] xml2_1.2.2        fs_1.3.2          vctrs_0.3.2       hms_0.5.3        
+[25] webshot_0.5.2     rprojroot_1.3-2   glue_1.3.1        R6_2.4.1         
+[29] rmarkdown_2.1     readr_1.3.1       magrittr_1.5      whisker_0.4      
+[33] backports_1.1.5   scales_1.1.0      promises_1.1.0    htmltools_0.4.0  
+[37] ellipsis_0.3.0    rvest_0.3.5       colorspace_1.4-1  httpuv_1.5.2     
+[41] stringi_1.4.6     munsell_0.5.0     crayon_1.3.4     </code></pre>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
