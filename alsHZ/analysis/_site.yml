@@ -9,6 +9,8 @@ navbar:
     href: about.html
   - text: License
     href: license.html
+  - text: ALS
+    href: ALS_BodyTest.html
 output:
   workflowr::wflow_html:
     toc: yes
