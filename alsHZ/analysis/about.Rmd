@@ -7,5 +7,10 @@ editor_options:
   chunk_output_type: console
 ---
 
-Amyotrophic lateral sclerosis and hypermetabolism study.
-
+* Title: Amyotrophic lateral sclerosis and hypermetabolism study.
+* AIM: The aim of this study was to determine the prevalence
+of hypermetabolism, relative to body composition,
+in patients with ALS and age and sex-matched
+healthy controls. In addition, we assessed the association
+of hypermetabolism with clinical features of
+disease, functional decline and mortality.
