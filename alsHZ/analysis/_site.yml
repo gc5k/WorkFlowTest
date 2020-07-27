@@ -5,10 +5,13 @@ navbar:
   left:
   - text: Home
     href: index.html
+
   - text: About
     href: about.html
   - text: License
     href: license.html
+  - text: KBox
+    href: KBox.html
   - text: ALS
     href: ALS_BodyTest.html
 output:

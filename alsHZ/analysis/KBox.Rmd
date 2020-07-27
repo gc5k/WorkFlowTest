@@ -1,0 +1,11 @@
+---
+title: "K-Box"
+author: "gc5k"
+output:
+  workflowr::wflow_html:
+    toc: false
+editor_options:
+  chunk_output_type: console
+---
+
+* Patient with ALS who fulfilled with the revised El Escortial criteria for probable and definite ALS [Amyotrophic Lateral Sclerosis and Other Motor Neuron Disorders: 1: 293-299](http://dx.doi.org/10.1080/146608200300079536).
