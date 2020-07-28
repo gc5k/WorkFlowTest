@@ -69,6 +69,24 @@ kable_styling("striped", full_width = T)
 
 ```
 
+## Baseline characteristics
+
+```{r, Baseline}
+BS=c("AgeOfOnset","SiteOfOnset","DelayDays","DelayMonths","heightpre","	weightpre","weightdiagnosis","BMIpre","BMIdiagnosis","ALSFRSRDiagnosis","chWeightPre", "chBMIPre","chFSPre")
+
+BSidx=c()
+for(i in 1:length(BS)) {
+  BSidx=c(BSidx,which(rownames(SUMmat) == BS[i]))
+}
+
+knitr::kable(SUMmat[BSidx,], caption = "Data quality") %>%
+
+kable_styling("striped", full_width = T)
+#row_spec(row=16:16, color="white", background="red")
+
+```
+
+
 ## Feature selection
 ```{r, data-p}
 Smat=matrix(0, ncol(dat)-2, 4)
