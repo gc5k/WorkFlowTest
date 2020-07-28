@@ -503,16 +503,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomgc5kWorkFlowTesttree030c01d0daa39234a0f630aaf6b81b3663964bb9targetblank030c01da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/gc5k/WorkFlowTest/tree/030c01d0daa39234a0f630aaf6b81b3663964bb9" target="_blank">030c01d</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomgc5kWorkFlowTesttree5537386f2f59329553969e3baf62fd09b5ff5c10targetblank5537386a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/gc5k/WorkFlowTest/tree/5537386f2f59329553969e3baf62fd09b5ff5c10" target="_blank">5537386</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomgc5kWorkFlowTesttree030c01d0daa39234a0f630aaf6b81b3663964bb9targetblank030c01da" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomgc5kWorkFlowTesttree5537386f2f59329553969e3baf62fd09b5ff5c10targetblank5537386a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/gc5k/WorkFlowTest/tree/030c01d0daa39234a0f630aaf6b81b3663964bb9" target="_blank">030c01d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/gc5k/WorkFlowTest/tree/5537386f2f59329553969e3baf62fd09b5ff5c10" target="_blank">5537386</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -564,6 +564,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/gc5k/WorkFlowTest/blob/5537386f2f59329553969e3baf62fd09b5ff5c10/alsHZ/analysis/ALS_BodyTest.Rmd" target="_blank">5537386</a>
+</td>
+<td>
+gc5k
+</td>
+<td>
+2020-07-28
+</td>
+<td>
+Start my new project
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/gc5k/WorkFlowTest/64e700be752f8c265e97191216f7594c5a33c4ed/alsHZ/docs/ALS_BodyTest.html" target="_blank">64e700b</a>
+</td>
+<td>
+gc5k
+</td>
+<td>
+2020-07-28
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -724,18 +758,12 @@ Start my new project
 </div>
 </div>
 </div>
-<pre class="r"><code>#knitr::opts_chunk$set(echo = TRUE)
-library(pROC)</code></pre>
 <pre><code>Type &#39;citation(&quot;pROC&quot;)&#39; for a citation.</code></pre>
 <pre><code>
 Attaching package: &#39;pROC&#39;</code></pre>
 <pre><code>The following objects are masked from &#39;package:stats&#39;:
 
     cov, smooth, var</code></pre>
-<pre class="r"><code>library(&quot;knitr&quot;)
-library(&quot;kableExtra&quot;)
-
-dat=read.csv(&quot;./data/20200721all_cgb.csv&quot;, as.is = T, header = T)</code></pre>
 <div id="table-of-contents" class="section level1 tabset tabset-fade tabset-pills">
 <h1>Table of contents</h1>
 <div id="quality-check" class="section level2">
@@ -813,8 +841,11 @@ for(i in 1:nrow(SUMmat)) {
 [1] &quot;sample id: 1295458900, col:VO2KGATVMAX, outlier value: 1344.83&quot;</code></pre>
 <pre class="r"><code>write.table(SUMmat, &quot;Als_sumDat.txt&quot;, row.names = T, col.names = T, quote = F)
 
-basicSum=read.table(&quot;Als_sumDat.txt&quot;, as.is = T, header = T)
-knitr::kable(basicSum, caption = &quot;Data quality&quot;) %&gt;%
+#basicSum=read.table(&quot;Als_sumDat.txt&quot;, as.is = T, header = T)
+
+#knitr::kable(basicSum, caption = &quot;Data quality&quot;) %&gt;%
+knitr::kable(SUMmat, caption = &quot;Data quality&quot;) %&gt;%
+
 kable_styling(&quot;striped&quot;, full_width = T)</code></pre>
 <table class="table table-striped" style="margin-left: auto; margin-right: auto;">
 <caption>
@@ -828,13 +859,13 @@ Data quality
 minimum
 </th>
 <th style="text-align:right;">
-lower.hinge
+lower-hinge
 </th>
 <th style="text-align:right;">
 median
 </th>
 <th style="text-align:right;">
-upper.hinge
+upper-hinge
 </th>
 <th style="text-align:right;">
 maximum
@@ -4822,10 +4853,11 @@ for(i in 3:ncol(dat)) {
   }
 }
 rownames(SVCmat)=colnames(dat)[3:ncol(dat)]
-
+colnames(SVCmat)=c(&quot;est&quot;, &quot;se&quot;, &quot;t&quot;, &quot;-log10(p)&quot;)
+SVCmat[,4]=-log10(Smat[,4])
 par(las=2, cex=0.5, mai=c(1.5,0.5,0.5,0.5))
 pcut=-log10(0.05/(ncol(dat)-2))
-barplot(-log10(Smat[,4]), col=ifelse(-log10(Smat[,4])&gt;pcut, &quot;cyan&quot;, &quot;grey&quot;))
+barplot(SVCmat[,4], col=ifelse(SVCmat[,4]&gt;pcut, &quot;cyan&quot;, &quot;grey&quot;))
 abline(h=-log10(0.05/ncol(dat)), col=&quot;red&quot;, lty=2)</code></pre>
 <p><img src="figure/ALS_BodyTest.Rmd/data-p-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -4865,6 +4897,1904 @@ gc5k
 </table>
 </div>
 </div>
+<pre class="r"><code>knitr::kable(SVCmat, caption = &quot;Feature&quot;) %&gt;%
+kable_styling(&quot;striped&quot;, full_width = T) %&gt;%
+row_spec(row=which(SVCmat[,4]&gt;pcut), color=&quot;white&quot;, background=&quot;red&quot;)</code></pre>
+<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
+<caption>
+Feature
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+est
+</th>
+<th style="text-align:right;">
+se
+</th>
+<th style="text-align:right;">
+t
+</th>
+<th style="text-align:right;">
+-log10(p)
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+sex
+</td>
+<td style="text-align:right;">
+1.2625000
+</td>
+<td style="text-align:right;">
+0.4382868
+</td>
+<td style="text-align:right;">
+2.8805340
+</td>
+<td style="text-align:right;">
+1.7459044
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age
+</td>
+<td style="text-align:right;">
+-0.0316285
+</td>
+<td style="text-align:right;">
+0.0192393
+</td>
+<td style="text-align:right;">
+-1.6439534
+</td>
+<td style="text-align:right;">
+0.7234848
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+height
+</td>
+<td style="text-align:right;">
+0.0709346
+</td>
+<td style="text-align:right;">
+0.0268279
+</td>
+<td style="text-align:right;">
+2.6440587
+</td>
+<td style="text-align:right;">
+0.2954480
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+weight
+</td>
+<td style="text-align:right;">
+0.2216922
+</td>
+<td style="text-align:right;">
+0.0101167
+</td>
+<td style="text-align:right;">
+21.9134850
+</td>
+<td style="text-align:right;">
+1.1353235
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2REST
+</td>
+<td style="text-align:right;">
+0.0100830
+</td>
+<td style="text-align:right;">
+0.0020080
+</td>
+<td style="text-align:right;">
+5.0213059
+</td>
+<td style="text-align:right;">
+0.0082894
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VCO2REST
+</td>
+<td style="text-align:right;">
+0.0114785
+</td>
+<td style="text-align:right;">
+0.0021929
+</td>
+<td style="text-align:right;">
+5.2344453
+</td>
+<td style="text-align:right;">
+0.1474049
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2KGREST
+</td>
+<td style="text-align:right;">
+-0.3795740
+</td>
+<td style="text-align:right;">
+0.1699176
+</td>
+<td style="text-align:right;">
+-2.2338709
+</td>
+<td style="text-align:right;">
+0.5884231
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RERREST
+</td>
+<td style="text-align:right;">
+0.5795348
+</td>
+<td style="text-align:right;">
+2.0349476
+</td>
+<td style="text-align:right;">
+0.2847910
+</td>
+<td style="text-align:right;">
+1.6176325
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+HRREST
+</td>
+<td style="text-align:right;">
+-0.0128526
+</td>
+<td style="text-align:right;">
+0.0166714
+</td>
+<td style="text-align:right;">
+-0.7709345
+</td>
+<td style="text-align:right;">
+2.4068338
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SBPREST
+</td>
+<td style="text-align:right;">
+0.0319266
+</td>
+<td style="text-align:right;">
+0.0140243
+</td>
+<td style="text-align:right;">
+2.2765176
+</td>
+<td style="text-align:right;">
+0.7843141
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DBPREST
+</td>
+<td style="text-align:right;">
+0.0401141
+</td>
+<td style="text-align:right;">
+0.0236044
+</td>
+<td style="text-align:right;">
+1.6994342
+</td>
+<td style="text-align:right;">
+1.0494448
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+WAT
+</td>
+<td style="text-align:right;">
+0.0390423
+</td>
+<td style="text-align:right;">
+0.0076257
+</td>
+<td style="text-align:right;">
+5.1198049
+</td>
+<td style="text-align:right;">
+2.4301909
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2KGAT
+</td>
+<td style="text-align:right;">
+-0.0815296
+</td>
+<td style="text-align:right;">
+0.0546481
+</td>
+<td style="text-align:right;">
+-1.4919001
+</td>
+<td style="text-align:right;">
+0.6699416
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RERAT
+</td>
+<td style="text-align:right;">
+-10.5442956
+</td>
+<td style="text-align:right;">
+4.2446271
+</td>
+<td style="text-align:right;">
+-2.4841512
+</td>
+<td style="text-align:right;">
+2.2831441
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+HRAT
+</td>
+<td style="text-align:right;">
+-0.0102321
+</td>
+<td style="text-align:right;">
+0.0110438
+</td>
+<td style="text-align:right;">
+-0.9265017
+</td>
+<td style="text-align:right;">
+0.0379777
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SBPAT
+</td>
+<td style="text-align:right;">
+0.0457184
+</td>
+<td style="text-align:right;">
+0.0132256
+</td>
+<td style="text-align:right;">
+3.4568196
+</td>
+<td style="text-align:right;">
+2.1503391
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DBPAT
+</td>
+<td style="text-align:right;">
+0.0719442
+</td>
+<td style="text-align:right;">
+0.0235275
+</td>
+<td style="text-align:right;">
+3.0578826
+</td>
+<td style="text-align:right;">
+2.2805933
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+WVMAX
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0157977
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0041366
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+3.8190185
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+8.3651892
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+VO2KGVMAX
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-0.0382290
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0283824
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-1.3469268
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+6.8326816
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+RERVMAX
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-2.8243201
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+1.4018811
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-2.0146645
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+9.7686938
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+HRVMAX
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-0.0061289
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0081461
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-0.7523717
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+5.1594657
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2HRVMAX
+</td>
+<td style="text-align:right;">
+0.0870934
+</td>
+<td style="text-align:right;">
+0.0354256
+</td>
+<td style="text-align:right;">
+2.4584842
+</td>
+<td style="text-align:right;">
+2.0129062
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SBPVMAX
+</td>
+<td style="text-align:right;">
+0.0264550
+</td>
+<td style="text-align:right;">
+0.0079432
+</td>
+<td style="text-align:right;">
+3.3305219
+</td>
+<td style="text-align:right;">
+0.1793788
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+DBPVMAX
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0650876
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0175314
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+3.7126399
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+3.7931089
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+WVMAXP
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0084615
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0069927
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+1.2100480
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+10.4230652
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+VEVMAXP
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0319356
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0147736
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+2.1616645
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+9.0532255
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+VO2KGVMAXP
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0105721
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0091032
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+1.1613591
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+9.9979775
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+HRVMAXP
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-0.0153301
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0132746
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-1.1548481
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+3.7392381
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+VO2HRVMAXP
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0128273
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0089583
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+1.4318852
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+9.8859547
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+VEVCO2VMAXP
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0130530
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0102192
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+1.2773074
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+5.2006297
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+WATP
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0265088
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0154864
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+1.7117489
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+6.2809642
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VEATP
+</td>
+<td style="text-align:right;">
+0.0627380
+</td>
+<td style="text-align:right;">
+0.0415577
+</td>
+<td style="text-align:right;">
+1.5096604
+</td>
+<td style="text-align:right;">
+0.4946506
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2KGATP
+</td>
+<td style="text-align:right;">
+0.0229291
+</td>
+<td style="text-align:right;">
+0.0188957
+</td>
+<td style="text-align:right;">
+1.2134557
+</td>
+<td style="text-align:right;">
+2.3398846
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+HRATP
+</td>
+<td style="text-align:right;">
+-0.0342963
+</td>
+<td style="text-align:right;">
+0.0263251
+</td>
+<td style="text-align:right;">
+-1.3027998
+</td>
+<td style="text-align:right;">
+1.1988779
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+VO2HRATP
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0342545
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0153102
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+2.2373644
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+4.0633591
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VEVCO2ATP
+</td>
+<td style="text-align:right;">
+0.0160366
+</td>
+<td style="text-align:right;">
+0.0145242
+</td>
+<td style="text-align:right;">
+1.1041246
+</td>
+<td style="text-align:right;">
+1.6149410
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2KGATVMAX
+</td>
+<td style="text-align:right;">
+0.0047185
+</td>
+<td style="text-align:right;">
+0.0026481
+</td>
+<td style="text-align:right;">
+1.7818239
+</td>
+<td style="text-align:right;">
+0.1024781
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VEVCO2slope
+</td>
+<td style="text-align:right;">
+-0.0510799
+</td>
+<td style="text-align:right;">
+0.0455642
+</td>
+<td style="text-align:right;">
+-1.1210529
+</td>
+<td style="text-align:right;">
+0.4004566
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+WeberGrading
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.1954272
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.2298270
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.8503231
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+9.9254582
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+OUES
+</td>
+<td style="text-align:right;">
+0.0019826
+</td>
+<td style="text-align:right;">
+0.0003709
+</td>
+<td style="text-align:right;">
+5.3452229
+</td>
+<td style="text-align:right;">
+2.3019006
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+HRRecovery
+</td>
+<td style="text-align:right;">
+0.0239014
+</td>
+<td style="text-align:right;">
+0.0236672
+</td>
+<td style="text-align:right;">
+1.0098928
+</td>
+<td style="text-align:right;">
+1.3602087
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+FVC
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-0.0114604
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0159675
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-0.7177318
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+5.0363628
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+FEV1
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-0.0188694
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0152568
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-1.2367894
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+5.0784980
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FEV1FVC
+</td>
+<td style="text-align:right;">
+-0.0097355
+</td>
+<td style="text-align:right;">
+0.0201189
+</td>
+<td style="text-align:right;">
+-0.4838995
+</td>
+<td style="text-align:right;">
+2.3232226
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+FEF25
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-0.0104127
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0079696
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-1.3065547
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+4.3078670
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FEF75
+</td>
+<td style="text-align:right;">
+-0.0041787
+</td>
+<td style="text-align:right;">
+0.0067875
+</td>
+<td style="text-align:right;">
+-0.6156512
+</td>
+<td style="text-align:right;">
+0.1694577
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FEF2575
+</td>
+<td style="text-align:right;">
+-0.0025343
+</td>
+<td style="text-align:right;">
+0.0077141
+</td>
+<td style="text-align:right;">
+-0.3285209
+</td>
+<td style="text-align:right;">
+2.6704615
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+FEFMAX
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-0.0025558
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0094757
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-0.2697215
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+5.0023300
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+FIVC
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.6616432
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.2199686
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+3.0078988
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+4.4789092
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FIFMAX
+</td>
+<td style="text-align:right;">
+0.2094300
+</td>
+<td style="text-align:right;">
+0.1767547
+</td>
+<td style="text-align:right;">
+1.1848621
+</td>
+<td style="text-align:right;">
+2.7150508
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+MVV
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-0.0144284
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0098479
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-1.4651268
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+9.0559410
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+SVC
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-0.0018868
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0148719
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-0.1268697
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+5.6363535
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+IC
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0302374
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0110949
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+2.7253361
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+3.7200920
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ERV
+</td>
+<td style="text-align:right;">
+-0.0163231
+</td>
+<td style="text-align:right;">
+0.0054854
+</td>
+<td style="text-align:right;">
+-2.9757247
+</td>
+<td style="text-align:right;">
+0.2388322
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+IntracellularWater
+</td>
+<td style="text-align:right;">
+0.4108013
+</td>
+<td style="text-align:right;">
+0.0422749
+</td>
+<td style="text-align:right;">
+9.7173815
+</td>
+<td style="text-align:right;">
+1.8548914
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ExtracellularWater
+</td>
+<td style="text-align:right;">
+0.7073046
+</td>
+<td style="text-align:right;">
+0.0719876
+</td>
+<td style="text-align:right;">
+9.8253670
+</td>
+<td style="text-align:right;">
+1.0870779
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Protein
+</td>
+<td style="text-align:right;">
+0.9469162
+</td>
+<td style="text-align:right;">
+0.0978042
+</td>
+<td style="text-align:right;">
+9.6817519
+</td>
+<td style="text-align:right;">
+1.8627957
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+InorganicSalt
+</td>
+<td style="text-align:right;">
+3.0048932
+</td>
+<td style="text-align:right;">
+0.2964844
+</td>
+<td style="text-align:right;">
+10.1350816
+</td>
+<td style="text-align:right;">
+0.8289862
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FatMass
+</td>
+<td style="text-align:right;">
+0.4687679
+</td>
+<td style="text-align:right;">
+0.0180472
+</td>
+<td style="text-align:right;">
+25.9746131
+</td>
+<td style="text-align:right;">
+0.0047686
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SoftLeanMass
+</td>
+<td style="text-align:right;">
+0.2024060
+</td>
+<td style="text-align:right;">
+0.0206899
+</td>
+<td style="text-align:right;">
+9.7828467
+</td>
+<td style="text-align:right;">
+1.6132979
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FatFreeMass
+</td>
+<td style="text-align:right;">
+0.1925118
+</td>
+<td style="text-align:right;">
+0.0195905
+</td>
+<td style="text-align:right;">
+9.8267915
+</td>
+<td style="text-align:right;">
+1.5587682
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BodyWater
+</td>
+<td style="text-align:right;">
+0.2612301
+</td>
+<td style="text-align:right;">
+0.0266749
+</td>
+<td style="text-align:right;">
+9.7931128
+</td>
+<td style="text-align:right;">
+1.5560621
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SkeletalMuscleMass
+</td>
+<td style="text-align:right;">
+0.3149354
+</td>
+<td style="text-align:right;">
+0.0324055
+</td>
+<td style="text-align:right;">
+9.7185922
+</td>
+<td style="text-align:right;">
+1.8519652
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+SMM
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.2483753
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0135721
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+18.3003859
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+6.3375192
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+FM
+</td>
+<td style="text-align:right;">
+0.0425062
+</td>
+<td style="text-align:right;">
+0.0015583
+</td>
+<td style="text-align:right;">
+27.2775521
+</td>
+<td style="text-align:right;">
+0.2492149
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMI
+</td>
+<td style="text-align:right;">
+1.0000000
+</td>
+<td style="text-align:right;">
+1.0000000
+</td>
+<td style="text-align:right;">
+1.0000000
+</td>
+<td style="text-align:right;">
+1.1231819
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PercentBodyFat
+</td>
+<td style="text-align:right;">
+0.2388495
+</td>
+<td style="text-align:right;">
+0.0279913
+</td>
+<td style="text-align:right;">
+8.5329987
+</td>
+<td style="text-align:right;">
+0.5062005
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+WaistHipRatio
+</td>
+<td style="text-align:right;">
+63.7458574
+</td>
+<td style="text-align:right;">
+2.1424345
+</td>
+<td style="text-align:right;">
+29.7539359
+</td>
+<td style="text-align:right;">
+1.6414602
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VisceralFatArea
+</td>
+<td style="text-align:right;">
+0.0643199
+</td>
+<td style="text-align:right;">
+0.0044303
+</td>
+<td style="text-align:right;">
+14.5181428
+</td>
+<td style="text-align:right;">
+0.5042916
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RA
+</td>
+<td style="text-align:right;">
+2.8005108
+</td>
+<td style="text-align:right;">
+0.2482615
+</td>
+<td style="text-align:right;">
+11.2804874
+</td>
+<td style="text-align:right;">
+2.5159801
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+RAp
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.1279656
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0091218
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+14.0285483
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+6.7973859
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+RAIp
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.1121297
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0143741
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+7.8008163
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+7.3515438
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LA
+</td>
+<td style="text-align:right;">
+2.8959817
+</td>
+<td style="text-align:right;">
+0.2503364
+</td>
+<td style="text-align:right;">
+11.5683587
+</td>
+<td style="text-align:right;">
+2.2393279
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+Lap
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.1347142
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0090945
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+14.8127590
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+6.2335278
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+LAIp
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.1226617
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0146435
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+8.3764994
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+6.8052002
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+TK
+</td>
+<td style="text-align:right;">
+0.4606619
+</td>
+<td style="text-align:right;">
+0.0416741
+</td>
+<td style="text-align:right;">
+11.0539122
+</td>
+<td style="text-align:right;">
+2.4689537
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+TKp
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.2334817
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0132287
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+17.6495956
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+7.8651019
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+TKIp
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.1614329
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0281529
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+5.7341410
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+8.5788429
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RL
+</td>
+<td style="text-align:right;">
+0.9491788
+</td>
+<td style="text-align:right;">
+0.1216033
+</td>
+<td style="text-align:right;">
+7.8055367
+</td>
+<td style="text-align:right;">
+1.5088434
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+RLp
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.2375404
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0172093
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+13.8030066
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+6.9163427
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+RLIp
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0444780
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0308165
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+1.4433184
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+5.6442387
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LL
+</td>
+<td style="text-align:right;">
+0.9342145
+</td>
+<td style="text-align:right;">
+0.1242577
+</td>
+<td style="text-align:right;">
+7.5183652
+</td>
+<td style="text-align:right;">
+1.4815340
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+LLp
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.2468857
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0182685
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+13.5142608
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+7.3361564
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+LLIp
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0191713
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.0315341
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.6079547
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+5.5531981
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+RAF
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+8.4091959
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+39.3435366
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.2137377
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+12.2229503
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+LAF
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-7.2433780
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+42.5726274
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-0.1701417
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+10.6464708
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+TKF
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-100.4500521
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+30.2962910
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-3.3155891
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+5.4811760
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+RLF
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-64.5245296
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+23.9147701
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-2.6981037
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+5.7919973
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+RAW
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+9.5973903
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+37.5346490
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+0.2556942
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+12.3943990
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+LAW
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-5.5261944
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+40.2363991
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-0.1373432
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+10.6475844
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+TKW
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-94.5238703
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+28.7593846
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-3.2867139
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+5.4519717
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+RLW
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-60.9726316
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+22.7814082
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-2.6764207
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+5.8982346
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+ECFTBF
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-96.4762281
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+31.1011003
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-3.1020198
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+6.8444239
+</td>
+</tr>
+<tr>
+<td style="text-align:left;color: white !important;background-color: red !important;">
+ECWTBW
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-91.8080888
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+29.5598374
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+-3.1058388
+</td>
+<td style="text-align:right;color: white !important;background-color: red !important;">
+6.8661188
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+mREE
+</td>
+<td style="text-align:right;">
+0.0014642
+</td>
+<td style="text-align:right;">
+0.0002864
+</td>
+<td style="text-align:right;">
+5.1132438
+</td>
+<td style="text-align:right;">
+0.0196086
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+cREE
+</td>
+<td style="text-align:right;">
+0.0092500
+</td>
+<td style="text-align:right;">
+0.0007236
+</td>
+<td style="text-align:right;">
+12.7828038
+</td>
+<td style="text-align:right;">
+0.7619878
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+REEp
+</td>
+<td style="text-align:right;">
+0.1529699
+</td>
+<td style="text-align:right;">
+0.5482355
+</td>
+<td style="text-align:right;">
+0.2790222
+</td>
+<td style="text-align:right;">
+0.4562132
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AgeOfOnset
+</td>
+<td style="text-align:right;">
+-0.0514348
+</td>
+<td style="text-align:right;">
+0.0333672
+</td>
+<td style="text-align:right;">
+-1.5414788
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SiteOfOnset
+</td>
+<td style="text-align:right;">
+0.7100585
+</td>
+<td style="text-align:right;">
+0.4392069
+</td>
+<td style="text-align:right;">
+1.6166833
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DelayDays
+</td>
+<td style="text-align:right;">
+-0.0019132
+</td>
+<td style="text-align:right;">
+0.0012379
+</td>
+<td style="text-align:right;">
+-1.5456145
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DelayMonths
+</td>
+<td style="text-align:right;">
+-0.0573952
+</td>
+<td style="text-align:right;">
+0.0371377
+</td>
+<td style="text-align:right;">
+-1.5454723
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+heightpre
+</td>
+<td style="text-align:right;">
+0.0713837
+</td>
+<td style="text-align:right;">
+0.0487696
+</td>
+<td style="text-align:right;">
+1.4636921
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+weightpre
+</td>
+<td style="text-align:right;">
+0.2125668
+</td>
+<td style="text-align:right;">
+0.0202684
+</td>
+<td style="text-align:right;">
+10.4876040
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+weightdiagnosis
+</td>
+<td style="text-align:right;">
+0.2366808
+</td>
+<td style="text-align:right;">
+0.0186565
+</td>
+<td style="text-align:right;">
+12.6862098
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMIpre
+</td>
+<td style="text-align:right;">
+0.8779322
+</td>
+<td style="text-align:right;">
+0.0568185
+</td>
+<td style="text-align:right;">
+15.4515210
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMIdiagnosis
+</td>
+<td style="text-align:right;">
+1.0035364
+</td>
+<td style="text-align:right;">
+0.0375718
+</td>
+<td style="text-align:right;">
+26.7098018
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ALSFRSRDiagnosis
+</td>
+<td style="text-align:right;">
+-0.0266639
+</td>
+<td style="text-align:right;">
+0.0961552
+</td>
+<td style="text-align:right;">
+-0.2773002
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+chWeightPre
+</td>
+<td style="text-align:right;">
+-0.0700899
+</td>
+<td style="text-align:right;">
+0.7092150
+</td>
+<td style="text-align:right;">
+-0.0988274
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+chBMIPre
+</td>
+<td style="text-align:right;">
+-0.1476382
+</td>
+<td style="text-align:right;">
+2.0285049
+</td>
+<td style="text-align:right;">
+-0.0727818
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+chFSPre
+</td>
+<td style="text-align:right;">
+0.4978796
+</td>
+<td style="text-align:right;">
+0.8370334
+</td>
+<td style="text-align:right;">
+0.5948145
+</td>
+<td style="text-align:right;">
+0.0000000
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="reep" class="section level2">
 <h2>REEp</h2>
@@ -4874,6 +6804,43 @@ hist(dat[,&quot;REEp&quot;], breaks = 25, main=&quot;All&quot;, xlab=&quot;REEp&
 hist(dat[which(dat$casectrl==0), &quot;REEp&quot;], breaks=25, main=&quot;control&quot;, xlab=&quot;REEp&quot;)
 hist(dat[which(dat$casectrl==1), &quot;REEp&quot;], breaks=25, main=&quot;case&quot;, xlab=&quot;REEp&quot;)</code></pre>
 <p><img src="figure/ALS_BodyTest.Rmd/Reep-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-Reep-1">
+Past versions of Reep-1.png
+</button>
+</p>
+<div id="fig-Reep-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/gc5k/WorkFlowTest/blob/64e700be752f8c265e97191216f7594c5a33c4ed/alsHZ/docs/figure/ALS_BodyTest.Rmd/Reep-1.png" target="_blank">64e700b</a>
+</td>
+<td>
+gc5k
+</td>
+<td>
+2020-07-28
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>Th=c(1.0, 1.1, 1.2)
 propREE=matrix(1:6, 2, 3)
 colnames(propREE)=Th
