@@ -79,8 +79,7 @@ for(i in 1:length(BS)) {
   BSidx=c(BSidx,which(rownames(SUMmat) == BS[i]))
 }
 
-knitr::kable(SUMmat[BSidx,], caption = "Data quality") %>%
-
+knitr::kable(SUMmat[BSidx,c(1,3,5,7,8)], caption = "Baseline characteristics") %>%
 kable_styling("striped", full_width = T)
 #row_spec(row=16:16, color="white", background="red")
 
