@@ -9,7 +9,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r setup}
+```{r setup, echo=FALSE}
 #knitr::opts_chunk$set(echo = TRUE)
 library(pROC)
 library("knitr")
@@ -59,8 +59,11 @@ for(i in 1:nrow(SUMmat)) {
 
 write.table(SUMmat, "Als_sumDat.txt", row.names = T, col.names = T, quote = F)
 
-basicSum=read.table("Als_sumDat.txt", as.is = T, header = T)
-knitr::kable(basicSum, caption = "Data quality") %>%
+#basicSum=read.table("Als_sumDat.txt", as.is = T, header = T)
+
+#knitr::kable(basicSum, caption = "Data quality") %>%
+knitr::kable(SUMmat, caption = "Data quality") %>%
+
 kable_styling("striped", full_width = T)
 #row_spec(row=16:16, color="white", background="red")
 
@@ -107,11 +110,16 @@ for(i in 3:ncol(dat)) {
   }
 }
 rownames(SVCmat)=colnames(dat)[3:ncol(dat)]
-
+colnames(SVCmat)=c("est", "se", "t", "-log10(p)")
+SVCmat[,4]=-log10(Smat[,4])
 par(las=2, cex=0.5, mai=c(1.5,0.5,0.5,0.5))
 pcut=-log10(0.05/(ncol(dat)-2))
-barplot(-log10(Smat[,4]), col=ifelse(-log10(Smat[,4])>pcut, "cyan", "grey"))
+barplot(SVCmat[,4], col=ifelse(SVCmat[,4]>pcut, "cyan", "grey"))
 abline(h=-log10(0.05/ncol(dat)), col="red", lty=2)
+
+knitr::kable(SVCmat, caption = "Feature") %>%
+kable_styling("striped", full_width = T) %>%
+row_spec(row=which(SVCmat[,4]>pcut), color="white", background="red")
 
 ```
 
