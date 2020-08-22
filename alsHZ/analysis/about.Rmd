@@ -7,7 +7,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-* [ALS design ppt](./data/als_metabolism.pptx)
+* [ALS design ppt](../data/als_metabolism.pptx)
 * Title: Amyotrophic lateral sclerosis and hypermetabolism study.
 * AIM: The aim of this study was to determine the prevalence
 of hypermetabolism, relative to body composition,
