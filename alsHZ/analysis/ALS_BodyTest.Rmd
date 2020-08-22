@@ -15,7 +15,7 @@ library(pROC)
 library("knitr")
 library("kableExtra")
 
-dat=read.csv("./data/20200721all_cgb.csv", as.is = T, header = T)
+dat=read.csv("./data/20200818all.csv", as.is = T, header = T)
 
 ```
 
@@ -141,8 +141,8 @@ hist(dat[,"REEp"], breaks = 25, main="All", xlab="REEp")
 hist(dat[which(dat$casectrl==0), "REEp"], breaks=25, main="control", xlab="REEp")
 hist(dat[which(dat$casectrl==1), "REEp"], breaks=25, main="case", xlab="REEp")
 
-Th=c(1.0, 1.1, 1.2)
-propREE=matrix(1:6, 2, 3)
+Th=c(1.0, 1.1, 1.2, 1.3, 1.35, 1.4, 1.45, 1.5)
+propREE=matrix(1:6, 2, length(Th))
 colnames(propREE)=Th
 rownames(propREE)=c("ctrl", "cs")
 for(i in 1:length(Th)) {
