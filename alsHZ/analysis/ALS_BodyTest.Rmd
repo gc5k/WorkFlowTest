@@ -4,7 +4,7 @@ author: "Chen Guo-Bo [chenguobo@gmail.com]"
 date: "`r Sys.Date()`"
 output:
   workflowr::wflow_html:
-    toc: true
+    toc: false
 editor_options:
   chunk_output_type: console
 ---
