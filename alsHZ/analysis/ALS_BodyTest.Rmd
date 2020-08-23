@@ -15,7 +15,7 @@ library(pROC)
 library("knitr")
 library("kableExtra")
 
-dat=read.csv("./data/20200818all.csv", as.is = T, header = T)
+dat=read.csv("./data/20200818all_bmi.csv", as.is = T, header = T)
 
 ```
 
@@ -77,8 +77,6 @@ datMat=matrix(0, 4, 5)
 colnames(datMat)=c("sex", "age", "height", "weight", "BMI")
 rownames(datMat)=c("Cs mean", "Cs sd", "Ctrl mean", "Ctrl sd")
 datCs=as.matrix(dat)[dat$casectrl==1,c("sex", "age", "height", "weight", "BMI")]
-idxCsBMI=which(is.na(datCs[,"BMI"]))
-datCs[idxCsBMI, c("BMI")]=datCs[idxCsBMI, "weight"]/datCs[idxCsBMI, "height"]^2
 
 datMat[1,]=apply(datCs, 2, mean)
 datMat[2,]=apply(datCs, 2, sd)
@@ -171,6 +169,10 @@ for(i in 1:length(Th)) {
   propREE[1,i]=length(which(dat[(dat$casectrl==0), "REEp"]>Th[i]))/nrow(dat[dat$casectrl==0,])
   propREE[2,i]=length(which(dat[(dat$casectrl==1), "REEp"]>Th[i]))/nrow(dat[dat$casectrl==1,])
 }
-print(propREE)
+#print(propREE)
+layout(matrix(1:1, 1, 1))
+barplot(propREE, beside = T, border = F)
+abline(h=c(0.5, 0.55, 0.6), lty=2, col="red")
+legend("topright", legend = c("Ctrl", "Cs"), col = c("black", "grey"), pch=16)
 ```
 
