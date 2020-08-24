@@ -161,6 +161,7 @@ hist(dat[,"REEp"], breaks = 25, main="All", xlab="REEp")
 hist(dat[which(dat$casectrl==0), "REEp"], breaks=25, main="control", xlab="REEp")
 hist(dat[which(dat$casectrl==1), "REEp"], breaks=25, main="case", xlab="REEp")
 
+#sex difference
 layout(matrix(1:2, 1, 2))
 for(i in c(0, 1)) {
   dat_=dat[dat$sex==i,]
@@ -169,9 +170,29 @@ for(i in c(0, 1)) {
      xlab="cREE", ylab="mREE", 
      xlim=c(1000, 2500), ylim=c(0, 6000), 
      col=ifelse(dat_$casectrl==1, "red", "green"), cex=0.5, pch=16)
+  points(12.6*dat_[, "weight"]+ifelse(i==0, 468.2, 666), dat_[, "mREE"], cex=2, col="gold", lwd=2)
 }
 legend("topleft", legend=c("case","ctrl"), col=c("red", "green"), pch=16)
 rm(dat_)
+
+#weight
+FT=c("weight", "height", "BMI")
+for(ft in 1:length(FT)) {
+  cIdx=which(colnames(dat)==FT[ft])
+  layout(matrix(1:2, 1, 2, byrow = T))
+
+  for(i in c(0, 1)) {
+    dat_=dat[dat$sex==i,]
+    plot(main=paste("mREE vs cREE", "sex=", i), 
+     x=dat_[, cIdx], y=dat_[, "mREE"], 
+     xlab=FT[ft], ylab="mREE", 
+     ylim=c(0, 6000), 
+     col=ifelse(dat_$casectrl==1, "red", "green"), cex=0.5, pch=16)
+  }
+  legend("topleft", legend=c("case","ctrl"), col=c("red", "green"), pch=16)
+  rm(dat_)
+}
+
 
 Th=c(1.0, 1.1, 1.2, 1.3, 1.35, 1.4, 1.45, 1.5)
 propREE=matrix(1:6, 2, length(Th))
@@ -186,5 +207,29 @@ layout(matrix(1:1, 1, 1))
 barplot(propREE, beside = T, border = F)
 abline(h=c(0.5, 0.55, 0.6), lty=2, col="red")
 legend("topright", legend = c("Ctrl", "Cs"), col = c("black", "grey"), pch=16)
+```
+
+## REEp model
+
+```{r REEp-model}
+datF=dat[!is.na(dat$mREE),]
+datCtrl=datF[datF$casectrl==0,]
+datCs=datF[datF$casectrl==1,]
+
+mod=lm(mREE~weight+height+sex+age, data=datCtrl)
+print(summary(mod))
+anova(mod)
+plot(datCtrl$mREE, mod$fitted.values)
+CsPre=predict(mod, datCs)
+plot(datCs$mREE, CsPre)
+
+modR=lm(mREE~weight+sex+age, data=datCtrl)
+print(summary(modR))
+anova(modR)
+plot(datCtrl$mREE, modR$fitted.values)
+CsPre=predict(modR, datCs)
+plot(datCs$mREE, CsPre)
+
+
 ```
 
