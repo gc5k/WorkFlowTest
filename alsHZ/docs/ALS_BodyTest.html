@@ -427,16 +427,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomgc5kWorkFlowTesttree8f5bf2214230b64dda2ef36167fc921bf3a599f8targetblank8f5bf22a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/gc5k/WorkFlowTest/tree/8f5bf2214230b64dda2ef36167fc921bf3a599f8" target="_blank">8f5bf22</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomgc5kWorkFlowTesttree6c66ec17a377c0abb92a0cd0cad68edc65de1a81targetblank6c66ec1a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/gc5k/WorkFlowTest/tree/6c66ec17a377c0abb92a0cd0cad68edc65de1a81" target="_blank">6c66ec1</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomgc5kWorkFlowTesttree8f5bf2214230b64dda2ef36167fc921bf3a599f8targetblank8f5bf22a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomgc5kWorkFlowTesttree6c66ec17a377c0abb92a0cd0cad68edc65de1a81targetblank6c66ec1a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/gc5k/WorkFlowTest/tree/8f5bf2214230b64dda2ef36167fc921bf3a599f8" target="_blank">8f5bf22</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/gc5k/WorkFlowTest/tree/6c66ec17a377c0abb92a0cd0cad68edc65de1a81" target="_blank">6c66ec1</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -450,11 +450,13 @@ Ignored files:
     Ignored:    alsHZ/.Rproj.user/
     Ignored:    alsHZ/analysis/.DS_Store
     Ignored:    alsHZ/data/.DS_Store
+    Ignored:    alsHZ/data/20200718title.xlsx
     Ignored:    alsHZ/data/20200818all_bmi.csv
     Ignored:    alsHZ/data/als_metabolism.pptx
 
 Untracked files:
-    Untracked:  alsHZ/data/20200718title.xlsx
+    Untracked:  alsHZ/Estimation of basal metabolic rate in Chinese- are the current prediction equations applicable?.pdf
+    Untracked:  alsHZ/basal_energy_expenditure_in_southern_chinese_healthy_adults_measurement_and_development_of_a_new_equation.pdf
 
 </code></pre>
 <p>
@@ -493,6 +495,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/gc5k/WorkFlowTest/blob/6c66ec17a377c0abb92a0cd0cad68edc65de1a81/alsHZ/analysis/ALS_BodyTest.Rmd" target="_blank">6c66ec1</a>
+</td>
+<td>
+gc5k
+</td>
+<td>
+2020-08-24
+</td>
+<td>
+Start my new project
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/gc5k/WorkFlowTest/ddbf8baaa35519495a60b29066cf3b0b6b0ac684/alsHZ/docs/ALS_BodyTest.html" target="_blank">ddbf8ba</a>
+</td>
+<td>
+gc5k
+</td>
+<td>
+2020-08-24
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -6297,7 +6333,8 @@ hist(dat[,&quot;REEp&quot;], breaks = 25, main=&quot;All&quot;, xlab=&quot;REEp&
 hist(dat[which(dat$casectrl==0), &quot;REEp&quot;], breaks=25, main=&quot;control&quot;, xlab=&quot;REEp&quot;)
 hist(dat[which(dat$casectrl==1), &quot;REEp&quot;], breaks=25, main=&quot;case&quot;, xlab=&quot;REEp&quot;)</code></pre>
 <p><img src="figure/ALS_BodyTest.Rmd/REEp-1.png" width="672" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>layout(matrix(1:2, 1, 2))
+<pre class="r"><code>#sex difference
+layout(matrix(1:2, 1, 2))
 for(i in c(0, 1)) {
   dat_=dat[dat$sex==i,]
   plot(main=paste(&quot;mREE vs cREE&quot;, &quot;sex=&quot;, i), 
@@ -6305,12 +6342,69 @@ for(i in c(0, 1)) {
      xlab=&quot;cREE&quot;, ylab=&quot;mREE&quot;, 
      xlim=c(1000, 2500), ylim=c(0, 6000), 
      col=ifelse(dat_$casectrl==1, &quot;red&quot;, &quot;green&quot;), cex=0.5, pch=16)
+  points(12.6*dat_[, &quot;weight&quot;]+ifelse(i==0, 468.2, 666), dat_[, &quot;mREE&quot;], cex=2, col=&quot;gold&quot;, lwd=2)
 }
 legend(&quot;topleft&quot;, legend=c(&quot;case&quot;,&quot;ctrl&quot;), col=c(&quot;red&quot;, &quot;green&quot;), pch=16)</code></pre>
 <p><img src="figure/ALS_BodyTest.Rmd/REEp-2.png" width="672" style="display: block; margin: auto;" /></p>
 <pre class="r"><code>rm(dat_)
 
-Th=c(1.0, 1.1, 1.2, 1.3, 1.35, 1.4, 1.45, 1.5)
+#weight
+FT=c(&quot;weight&quot;, &quot;height&quot;, &quot;BMI&quot;)
+for(ft in 1:length(FT)) {
+  cIdx=which(colnames(dat)==FT[ft])
+  layout(matrix(1:2, 1, 2, byrow = T))
+
+  for(i in c(0, 1)) {
+    dat_=dat[dat$sex==i,]
+    plot(main=paste(&quot;mREE vs cREE&quot;, &quot;sex=&quot;, i), 
+     x=dat_[, cIdx], y=dat_[, &quot;mREE&quot;], 
+     xlab=FT[ft], ylab=&quot;mREE&quot;, 
+     ylim=c(0, 6000), 
+     col=ifelse(dat_$casectrl==1, &quot;red&quot;, &quot;green&quot;), cex=0.5, pch=16)
+  }
+  legend(&quot;topleft&quot;, legend=c(&quot;case&quot;,&quot;ctrl&quot;), col=c(&quot;red&quot;, &quot;green&quot;), pch=16)
+  rm(dat_)
+}</code></pre>
+<p><img src="figure/ALS_BodyTest.Rmd/REEp-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-REEp-3">
+Past versions of REEp-3.png
+</button>
+</p>
+<div id="fig-REEp-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/gc5k/WorkFlowTest/blob/ddbf8baaa35519495a60b29066cf3b0b6b0ac684/alsHZ/docs/figure/ALS_BodyTest.Rmd/REEp-3.png" target="_blank">ddbf8ba</a>
+</td>
+<td>
+gc5k
+</td>
+<td>
+2020-08-24
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/ALS_BodyTest.Rmd/REEp-4.png" width="672" style="display: block; margin: auto;" /><img src="figure/ALS_BodyTest.Rmd/REEp-5.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>Th=c(1.0, 1.1, 1.2, 1.3, 1.35, 1.4, 1.45, 1.5)
 propREE=matrix(1:6, 2, length(Th))</code></pre>
 <pre><code>Warning in matrix(1:6, 2, length(Th)): data length [6] is not a sub-multiple or
 multiple of the number of columns [8]</code></pre>
@@ -6325,7 +6419,92 @@ layout(matrix(1:1, 1, 1))
 barplot(propREE, beside = T, border = F)
 abline(h=c(0.5, 0.55, 0.6), lty=2, col=&quot;red&quot;)
 legend(&quot;topright&quot;, legend = c(&quot;Ctrl&quot;, &quot;Cs&quot;), col = c(&quot;black&quot;, &quot;grey&quot;), pch=16)</code></pre>
-<p><img src="figure/ALS_BodyTest.Rmd/REEp-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/ALS_BodyTest.Rmd/REEp-6.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="reep-model" class="section level2">
+<h2>REEp model</h2>
+<pre class="r"><code>datF=dat[!is.na(dat$mREE),]
+datCtrl=datF[datF$casectrl==0,]
+datCs=datF[datF$casectrl==1,]
+
+mod=lm(mREE~weight+height+sex+age, data=datCtrl)
+print(summary(mod))</code></pre>
+<pre><code>
+Call:
+lm(formula = mREE ~ weight + height + sex + age, data = datCtrl)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1684.59  -407.43   -62.96   293.86  2878.93 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  596.553   1769.880   0.337 0.736574    
+weight        24.877      6.215   4.003 0.000101 ***
+height         2.041     11.224   0.182 0.856006    
+sex          152.736    171.287   0.892 0.374072    
+age          -12.222      5.006  -2.441 0.015878 *  
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 652.2 on 141 degrees of freedom
+Multiple R-squared:  0.3009,    Adjusted R-squared:  0.2811 
+F-statistic: 15.17 on 4 and 141 DF,  p-value: 2.428e-10</code></pre>
+<pre class="r"><code>anova(mod)</code></pre>
+<pre><code>Analysis of Variance Table
+
+Response: mREE
+           Df   Sum Sq  Mean Sq F value    Pr(&gt;F)    
+weight      1 22499333 22499333 52.8919 2.228e-11 ***
+height      1   648763   648763  1.5251   0.21890    
+sex         1   136692   136692  0.3213   0.57171    
+age         1  2535022  2535022  5.9594   0.01588 *  
+Residuals 141 59979042   425383                      
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>plot(datCtrl$mREE, mod$fitted.values)</code></pre>
+<p><img src="figure/ALS_BodyTest.Rmd/REEp-model-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>CsPre=predict(mod, datCs)
+plot(datCs$mREE, CsPre)</code></pre>
+<p><img src="figure/ALS_BodyTest.Rmd/REEp-model-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>modR=lm(mREE~weight+sex+age, data=datCtrl)
+print(summary(modR))</code></pre>
+<pre><code>
+Call:
+lm(formula = mREE ~ weight + sex + age, data = datCtrl)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1698.10  -415.97   -61.45   295.69  2881.58 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  906.714    469.161   1.933   0.0553 .  
+weight        25.314      5.710   4.433 1.84e-05 ***
+sex          170.671    139.544   1.223   0.2233    
+age          -12.409      4.883  -2.541   0.0121 *  
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 650 on 142 degrees of freedom
+Multiple R-squared:  0.3008,    Adjusted R-squared:  0.286 
+F-statistic: 20.36 on 3 and 142 DF,  p-value: 4.947e-11</code></pre>
+<pre class="r"><code>anova(modR)</code></pre>
+<pre><code>Analysis of Variance Table
+
+Response: mREE
+           Df   Sum Sq  Mean Sq F value    Pr(&gt;F)    
+weight      1 22499333 22499333 53.2545 1.902e-11 ***
+sex         1   578090   578090  1.3683   0.24406    
+age         1  2728329  2728329  6.4578   0.01212 *  
+Residuals 142 59993100   422487                      
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>plot(datCtrl$mREE, modR$fitted.values)</code></pre>
+<p><img src="figure/ALS_BodyTest.Rmd/REEp-model-3.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>CsPre=predict(modR, datCs)
+plot(datCs$mREE, CsPre)</code></pre>
+<p><img src="figure/ALS_BodyTest.Rmd/REEp-model-4.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
