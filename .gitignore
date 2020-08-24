@@ -5,4 +5,5 @@
 .Ruserdata
 .Rprofile
 alsHZ/data/*.csv
+alsHZ/data/*.xlsx
 *.pptx
