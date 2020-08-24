@@ -427,16 +427,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomgc5kWorkFlowTesttreea6960272b51dd00487339c68ac1a8b77fb7feaadtargetblanka696027a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/gc5k/WorkFlowTest/tree/a6960272b51dd00487339c68ac1a8b77fb7feaad" target="_blank">a696027</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomgc5kWorkFlowTesttree8f5bf2214230b64dda2ef36167fc921bf3a599f8targetblank8f5bf22a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/gc5k/WorkFlowTest/tree/8f5bf2214230b64dda2ef36167fc921bf3a599f8" target="_blank">8f5bf22</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomgc5kWorkFlowTesttreea6960272b51dd00487339c68ac1a8b77fb7feaadtargetblanka696027a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomgc5kWorkFlowTesttree8f5bf2214230b64dda2ef36167fc921bf3a599f8targetblank8f5bf22a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/gc5k/WorkFlowTest/tree/a6960272b51dd00487339c68ac1a8b77fb7feaad" target="_blank">a696027</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/gc5k/WorkFlowTest/tree/8f5bf2214230b64dda2ef36167fc921bf3a599f8" target="_blank">8f5bf22</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -449,17 +449,12 @@ Ignored files:
     Ignored:    alsHZ/.Rprofile
     Ignored:    alsHZ/.Rproj.user/
     Ignored:    alsHZ/analysis/.DS_Store
-    Ignored:    alsHZ/data/20200721all_cgb.csv
-    Ignored:    alsHZ/data/20200818all.csv
+    Ignored:    alsHZ/data/.DS_Store
     Ignored:    alsHZ/data/20200818all_bmi.csv
     Ignored:    alsHZ/data/als_metabolism.pptx
 
 Untracked files:
-    Untracked:  alsHZ/人类基础代谢率测量方法的研究进展.pdf
-    Untracked:  alsHZ/代谢车间接测热法、公式推测法及人体成分测定法用于测定静息能量消耗的比较.pdf
-
-Unstaged changes:
-    Modified:   alsHZ/Als_sumDat.txt
+    Untracked:  alsHZ/data/20200718title.xlsx
 
 </code></pre>
 <p>
@@ -498,6 +493,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/gc5k/WorkFlowTest/blob/8f5bf2214230b64dda2ef36167fc921bf3a599f8/alsHZ/analysis/ALS_BodyTest.Rmd" target="_blank">8f5bf22</a>
+</td>
+<td>
+gc5k
+</td>
+<td>
+2020-08-24
+</td>
+<td>
+Start my new project
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/gc5k/WorkFlowTest/9766a83ce93f68654118a7dcff36857df83a2136/alsHZ/docs/ALS_BodyTest.html" target="_blank">9766a83</a>
+</td>
+<td>
+gc5k
+</td>
+<td>
+2020-08-24
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -4802,6 +4831,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/gc5k/WorkFlowTest/blob/9766a83ce93f68654118a7dcff36857df83a2136/alsHZ/docs/figure/ALS_BodyTest.Rmd/data-p-1.png" target="_blank">9766a83</a>
+</td>
+<td>
+gc5k
+</td>
+<td>
+2020-08-24
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/gc5k/WorkFlowTest/blob/8c5c234556250c765075250aa05c49e35cef8ad2/alsHZ/docs/figure/ALS_BodyTest.Rmd/data-p-1.png" target="_blank">8c5c234</a>
 </td>
 <td>
@@ -6256,45 +6296,21 @@ chFSafter
 hist(dat[,&quot;REEp&quot;], breaks = 25, main=&quot;All&quot;, xlab=&quot;REEp&quot;)
 hist(dat[which(dat$casectrl==0), &quot;REEp&quot;], breaks=25, main=&quot;control&quot;, xlab=&quot;REEp&quot;)
 hist(dat[which(dat$casectrl==1), &quot;REEp&quot;], breaks=25, main=&quot;case&quot;, xlab=&quot;REEp&quot;)</code></pre>
-<p><img src="figure/ALS_BodyTest.Rmd/Reep-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-Reep-1">
-Past versions of Reep-1.png
-</button>
-</p>
-<div id="fig-Reep-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/gc5k/WorkFlowTest/blob/64e700be752f8c265e97191216f7594c5a33c4ed/alsHZ/docs/figure/ALS_BodyTest.Rmd/Reep-1.png" target="_blank">64e700b</a>
-</td>
-<td>
-gc5k
-</td>
-<td>
-2020-07-28
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code>Th=c(1.0, 1.1, 1.2, 1.3, 1.35, 1.4, 1.45, 1.5)
+<p><img src="figure/ALS_BodyTest.Rmd/REEp-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>layout(matrix(1:2, 1, 2))
+for(i in c(0, 1)) {
+  dat_=dat[dat$sex==i,]
+  plot(main=paste(&quot;mREE vs cREE&quot;, &quot;sex=&quot;, i), 
+     dat_[, &quot;cREE&quot;], dat_[, &quot;mREE&quot;], 
+     xlab=&quot;cREE&quot;, ylab=&quot;mREE&quot;, 
+     xlim=c(1000, 2500), ylim=c(0, 6000), 
+     col=ifelse(dat_$casectrl==1, &quot;red&quot;, &quot;green&quot;), cex=0.5, pch=16)
+}
+legend(&quot;topleft&quot;, legend=c(&quot;case&quot;,&quot;ctrl&quot;), col=c(&quot;red&quot;, &quot;green&quot;), pch=16)</code></pre>
+<p><img src="figure/ALS_BodyTest.Rmd/REEp-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>rm(dat_)
+
+Th=c(1.0, 1.1, 1.2, 1.3, 1.35, 1.4, 1.45, 1.5)
 propREE=matrix(1:6, 2, length(Th))</code></pre>
 <pre><code>Warning in matrix(1:6, 2, length(Th)): data length [6] is not a sub-multiple or
 multiple of the number of columns [8]</code></pre>
@@ -6309,7 +6325,7 @@ layout(matrix(1:1, 1, 1))
 barplot(propREE, beside = T, border = F)
 abline(h=c(0.5, 0.55, 0.6), lty=2, col=&quot;red&quot;)
 legend(&quot;topright&quot;, legend = c(&quot;Ctrl&quot;, &quot;Cs&quot;), col = c(&quot;black&quot;, &quot;grey&quot;), pch=16)</code></pre>
-<p><img src="figure/ALS_BodyTest.Rmd/Reep-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/ALS_BodyTest.Rmd/REEp-3.png" width="672" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
